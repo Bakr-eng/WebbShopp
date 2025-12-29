@@ -12,15 +12,13 @@ namespace WebbShop2.Models
         public string Namn { get; set; }
         public decimal? Pris { get; set; }
         public int? KategoriId { get; set; }
-        public int? StorlekId { get; set; }
         public string? Beskrivning { get; set; }
         public int? EnheterILager { get; set; }
         
 
         // Navigationsproperty
         public virtual Kategori? Kategori { get; set; }
-        public virtual Storlek? Storlek { get; set; }
 
-       // public virtual ICollection<Storlek> Storlekar { get; set; } = new List<Storlek>();
+        public virtual ICollection<Storlek> Storlekar { get; set; } = new List<Storlek>();
     }
 }

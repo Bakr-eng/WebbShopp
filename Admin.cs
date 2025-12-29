@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -40,19 +41,21 @@ namespace WebbShop2
             using (var db = new MyDbContext())
             {
                 Console.Clear();
-                var produkter = db.Produkter.ToList();
+                var produkter = db.Produkter
+                    .Include(p => p.Storlekar)
+                    .ToList();
 
-                Console.WriteLine("-------------------------------------------------------------------------------------");
-                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3} " +
-                    $"| {"StorlekId",-3} | {"EnheterILager",-10}| ");
-                Console.WriteLine("-------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"EnheterILager",-10}| ");
+                Console.WriteLine("------------------------------------------------------------------------------------");
 
                 foreach (var produkt in produkter)
                 {
-                    Console.WriteLine($"| {produkt.Id,-5} | {produkt.Namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-10} | " +
-                        $"{produkt.StorlekId,-9} | {produkt.EnheterILager,-12} |");
+                    string storlekarText = string.Join(", ", produkt.Storlekar.Select(s => s.Namn));
+                    Console.WriteLine($"| {produkt.Id,-5} | {produkt.Namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
+                        $"{storlekarText,-10}| {produkt.EnheterILager,-12} |");
                 }
-                Console.WriteLine("-------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------");
             }
         }
         private static void LäggTillProdukt()
@@ -70,30 +73,39 @@ namespace WebbShop2
                 decimal pris = decimal.Parse(Console.ReadLine());
                 Console.Write("Ange kategoriId: ");
                 int kategoriId = int.Parse(Console.ReadLine());
+
+
                 Console.Write("Ange storlekId: ");
                 int storlekId = int.Parse(Console.ReadLine());
+
+
                 Console.Write("Ange beskrivning: ");
                 string beskrivning = Console.ReadLine();
                 Console.Write("Ange antal enheter i lager: ");
                 int enheterILager = int.Parse(Console.ReadLine());
 
+
+                var storlek = db.Storlekar.FirstOrDefault(s => s.Id == storlekId);
                 var nyProdukt = new Produkt
                 {
                     Namn = namn,
                     Pris = pris,
                     KategoriId = kategoriId,
-                    StorlekId = storlekId,
                     Beskrivning = beskrivning,
                     EnheterILager = enheterILager
-
                 };
+                if (storlek != null)
+                {
+                    nyProdukt.Storlekar.Add(storlek);
+
+                }
                 db.Produkter.Add(nyProdukt);
 
                 try
                 {
                     db.SaveChanges();
-                    Console.WriteLine($"Produkten '{namn}' med pris {pris} kr, kategori '{kategoriId}'" +
-                        $", storlek '{storlekId}' och beskrivning '{beskrivning}' har lagts till.");
+                    Console.Write($"Produkten '{namn}' med pris {pris} kr, kategori '{kategoriId}' storlek '{storlekId}' och beskrivning '{beskrivning}'");
+                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" har lagts till i databasen."); Console.ResetColor();
                 }
                 catch (Exception ex)
                 {
