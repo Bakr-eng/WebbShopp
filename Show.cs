@@ -39,7 +39,7 @@ namespace WebbShop2
                         break;
 
                     case '0': Sökning(); break;
-                   // case '1': Tröjor(); break;
+                    case '1': Tröjor(); break;
                     case '2': Byxor(); break;
                     case '3': Jackor(); break;
 
@@ -49,76 +49,84 @@ namespace WebbShop2
             }
         }
 
-        //private static void Tröjor()
-        //{
-        //    using (var db = new MyDbContext())
-        //    {
-        //        Console.Clear();
-                
-
-        //        var tröjor = db.Produkter.Where(p => p.KategoriId == 1 && p.EnheterILager > 0).Include(p => p.Storlek).ToList();
-
-        //        int index = 1;
-        //        foreach (var tröja in tröjor)
-        //        {
-        //            Console.WriteLine($"[{index}]--------------------------");
-        //            Console.ForegroundColor = ConsoleColor.Yellow; Console.Write(
-        //             "          _________          \n" +
-        //             "         /         \\         \n" +
-        //             "    ____/   T‑SHIRT   \\____   \n" +
-        //             "   /    \\           /    \\   \n" +
-        //             "  /      \\         /      \\  \n" +
-        //             " |   __   \\_______/   __   | \n" +
-        //             " |  |  |             |  |  | \n" +
-        //             " |  |  |             |  |  | \n" +
-        //             " |  |__|             |__|  | \n" +
-        //             "  \\                        / \n" +
-        //             "   \\______________________/  \n"
-        //            ); Console.ResetColor();
-        //            Console.WriteLine($"{tröja.Namn}");
-        //            Console.WriteLine($"{tröja.Pris}kr");
-        //            Console.WriteLine();
-        //            index++;
-        //        }
+        private static void Tröjor()
+        {
+            using (var db = new MyDbContext())
+            {
+                Console.Clear();
 
 
-        //        Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
-        //        string input = Console.ReadLine();
+                var tröjor = db.Produkter
+                    .Where(p => p.KategoriId == 1 && p.EnheterILager > 0)
+                    .Include(p => p.Storlekar)
+                    .ToList();
 
-        //        if (int.TryParse(input, out int choice) && choice > 0 && choice <= tröjor.Count) 
-        //        {
-        //            var valdProdukt = tröjor[choice - 1]; 
+                int index = 1;
+                foreach (var tröja in tröjor)
+                {
+                    Console.WriteLine($"[{index}]--------------------------");
+                    Console.ForegroundColor = ConsoleColor.Yellow; Console.Write(
+                     "          _________          \n" +
+                     "         /         \\         \n" +
+                     "    ____/   T‑SHIRT   \\____   \n" +
+                     "   /    \\           /    \\   \n" +
+                     "  /      \\         /      \\  \n" +
+                     " |   __   \\_______/   __   | \n" +
+                     " |  |  |             |  |  | \n" +
+                     " |  |  |             |  |  | \n" +
+                     " |  |__|             |__|  | \n" +
+                     "  \\                        / \n" +
+                     "   \\______________________/  \n"
+                    ); Console.ResetColor();
+                    Console.WriteLine($"{tröja.Namn}");
+                    Console.WriteLine($"{tröja.Pris}kr");
+                    Console.WriteLine();
+                    index++;
+                }
 
-        //            Console.Clear();
-        //            Console.WriteLine("=== Produktinformation ===");
-        //            Console.WriteLine($"Namn: {valdProdukt.Namn}");
-        //            Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
-        //            Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
 
-        //            Console.WriteLine("Storlek: " + valdProdukt.Storlek.Storlekar);
+                Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && choice > 0 && choice <= tröjor.Count)
+                {
+                    var valdProdukt = tröjor[choice - 1];
+
+                    Console.Clear();
+                    Console.WriteLine("=== Produktinformation ===");
+                    Console.WriteLine($"Namn: {valdProdukt.Namn}");
+                    Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
+                    Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
+
+                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
+                    Console.WriteLine("Storlek: " + storlek);
 
 
 
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Ogiltigt val.");
-        //        }
 
-        //        Console.WriteLine("\nTryck Enter för att återgå...");
-        //        Console.ReadLine();
-        //    }
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                }
 
-        //}
+                Console.WriteLine("\nTryck Enter för att återgå...");
+                Console.ReadLine();
+            }
+
+        }
         private static void Byxor()
         {
             using (var db = new MyDbContext())
             {
                 Console.Clear();
 
-                var byxor = db.Produkter.Where(p => p.KategoriId == 2 && p.EnheterILager > 0).ToList();
-                int index = 1;
+                var byxor = db.Produkter
+                    .Where(p => p.KategoriId == 2 && p.EnheterILager > 0)
+                    .Include(p => p.Storlekar)
+                    .ToList();
 
+                int index = 1;
                 foreach (var byxa in byxor)
                 {
                     Console.WriteLine($"[{index}]--------------------------");
@@ -155,7 +163,10 @@ namespace WebbShop2
                     Console.WriteLine($"Namn: {valdProdukt.Namn}");
                     Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
                     Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
-                   // Console.WriteLine("Storlek: " + ((Storlek)valdProdukt.StorlekId));
+
+                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
+                    Console.WriteLine("Storlek: " + storlek);
+
 
 
                 }
@@ -173,7 +184,10 @@ namespace WebbShop2
             using (var db = new MyDbContext())
             {
                 Console.Clear();
-                var jackor = db.Produkter.Where(P => P.KategoriId == 3 && P.EnheterILager > 0).ToList();
+                var jackor = db.Produkter
+                    .Where(P => P.KategoriId == 3 && P.EnheterILager > 0)
+                    .Include(p => p.Storlekar)
+                    .ToList();
                 int index = 1;
 
                 foreach (var jacka in jackor)
@@ -209,9 +223,12 @@ namespace WebbShop2
                     Console.WriteLine($"Namn: {valdProdukt.Namn}");
                     Console.WriteLine($"Pris: {valdProdukt.Pris}kr");
                     Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
-                  // Console.WriteLine("Storlek: " + ((Storlek)valdProdukt.StorlekId));
-                    
-                    
+
+                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
+                    Console.WriteLine("Storlek: " + storlek);
+
+
+
                 }
                 else
                 {
@@ -230,9 +247,10 @@ namespace WebbShop2
             Console.Clear();
             Console.WriteLine("Sök efter en produkt: ");
             string searchTerm = Console.ReadLine().ToLower();
+
             if (searchTerm == "tröja" || searchTerm == "tröjor")
             {
-                //Tröjor();
+                Tröjor();
             }
             else if ( searchTerm == "byxor" )
             {
@@ -246,17 +264,9 @@ namespace WebbShop2
             {
                 Console.WriteLine("Inga träffar hittades.");
             }
-
-
         }
 
-        public enum Storlek
-        {
-            Small = 1,
-            Medium ,
-            Large ,
-            ExtraLarge 
-        }
+       
 
     }
 }
