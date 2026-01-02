@@ -111,7 +111,6 @@ namespace WebbShop2
                 }
 
                 Console.WriteLine("\nTryck Enter för att återgå...");
-                Console.ReadLine();
             }
 
         }
@@ -176,7 +175,6 @@ namespace WebbShop2
                 }
 
                 Console.WriteLine("\nTryck Enter för att återgå...");
-                Console.ReadLine();
             }
         }
         private static void Jackor()
@@ -236,7 +234,6 @@ namespace WebbShop2
                 }
 
                 Console.WriteLine("\nTryck Enter för att återgå...");
-                Console.ReadLine();
 
 
             }

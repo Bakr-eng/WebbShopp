@@ -14,44 +14,86 @@ namespace WebbShop2
         public static void Start()
         {
             string AdminNamn = "Bakr Khalil";
-            int password = 0000;
-          
+            var password = "0000";
             while (true)
             {
-                
                 Console.Clear();
-                Console.WriteLine("Ange ditt namn: ");
+                Console.Write("Ange ditt namn: ");
                 string inputNamn = Console.ReadLine();
-                Console.WriteLine("Ange ditt lösenord: ");
-                int inputPassword = int.Parse(Console.ReadLine());
+
+                Console.Write("Ange ditt lösenord: ");
+                string inputPassword = LäsDoltLösenord();
 
                 if (inputNamn == AdminNamn && inputPassword == password)
 
                 {
-                    Console.Clear();
-                    Console.WriteLine($"Hej {AdminNamn}!");
-                    Console.WriteLine($"Välkommen till Adminpanelen");
-                    Console.WriteLine("---------------------------");
-                    ShopLayout.AdminLayout();
-
-                    var key = Console.ReadKey();
-
-                    switch (char.ToLower(key.KeyChar))
-                    {
-                        case '1': VisaProdukter(); break;
-                        case '2': LäggTillProdukt(); break;
-                        case '3': TaBortProdukt(); break;
-                        case '4': Uppdatering(); break;
-                        case 'q': return;
-                    }
-                    Console.WriteLine("Tryck på Enter");
-                    Console.ReadLine();
+                   AdminPanalen(AdminNamn);
+                   return;
+                    
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Fel namn eller lösenord, försök igen."); Console.ResetColor();
-                    Thread.Sleep(3000);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Fel namn eller lösenord, försök igen.");
+                    Console.ResetColor();
+                    Thread.Sleep(2500);
                 }
+            }
+        }
+        private static string LäsDoltLösenord()
+        {
+            while (true)
+            {
+
+                string password = "";
+                ConsoleKeyInfo key;
+
+                do
+                {
+                    key = Console.ReadKey(true);
+
+                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                    {
+                        password += key.KeyChar;
+                        Console.Write("*");
+                    }
+                    else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                    {
+                        password = password.Substring(0, password.Length - 1);
+                        Console.Write("\b \b");
+                    }
+
+                } while (key.Key != ConsoleKey.Enter);
+
+                Console.WriteLine();
+                return password;
+
+
+            }
+        }
+
+        public static void AdminPanalen(string AdminNamn)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"Hej {AdminNamn}!");
+                Console.WriteLine($"Välkommen till Adminpanelen");
+                Console.WriteLine("---------------------------");
+                ShopLayout.AdminLayout();
+
+                var key = Console.ReadKey();
+
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '1': VisaProdukter(); break;
+                    case '2': LäggTillProdukt(); break;
+                    case '3': TaBortProdukt(); break;
+                    case '4': Uppdatering(); break;
+                    case 'q': return;
+                }
+                Console.WriteLine("Tryck på Enter");
+                Console.ReadLine();
             }
         }
         public static void VisaProdukter()
