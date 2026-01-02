@@ -43,7 +43,7 @@ namespace WebbShop2
         }
         public static void AdminUpdateLayout()
         {
-            List<string> AdminUpdateOption = new List<string> {"1. Uppdatera Namn", "2. Uppdatera Pris" };
+            List<string> AdminUpdateOption = new List<string> {"1. Uppdatera Namn", "2. Uppdatera Pris", "3. uppdatera Infotext", "4. Leverantör" };
             var winedowAdminUpdateOption = new Window("Uppdatera Produkt", 0, 3, AdminUpdateOption);
             winedowAdminUpdateOption.Draw();
 

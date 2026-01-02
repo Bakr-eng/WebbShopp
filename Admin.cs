@@ -13,49 +13,83 @@ namespace WebbShop2
     {
         public static void Start()
         {
-            Console.Clear();
+            string AdminNamn = "Bakr Khalil";
+            int password = 0000;
+          
             while (true)
             {
-
+                
                 Console.Clear();
-                Console.WriteLine("Välkommen till Adminpanelen");
-                Console.WriteLine("---------------------------");
-                ShopLayout.AdminLayout();
+                Console.WriteLine("Ange ditt namn: ");
+                string inputNamn = Console.ReadLine();
+                Console.WriteLine("Ange ditt lösenord: ");
+                int inputPassword = int.Parse(Console.ReadLine());
 
-                var key = Console.ReadKey();
+                if (inputNamn == AdminNamn && inputPassword == password)
 
-                switch (char.ToLower(key.KeyChar))
                 {
-                    case '1': VisaProdukter(); break;
-                    case '2': LäggTillProdukt(); break;
-                    case '3': TaBortProdukt(); break;
-                    case '4': Uppdatering(); break;
-                    case 'q': return;
+                    Console.Clear();
+                    Console.WriteLine($"Hej {AdminNamn}!");
+                    Console.WriteLine($"Välkommen till Adminpanelen");
+                    Console.WriteLine("---------------------------");
+                    ShopLayout.AdminLayout();
+
+                    var key = Console.ReadKey();
+
+                    switch (char.ToLower(key.KeyChar))
+                    {
+                        case '1': VisaProdukter(); break;
+                        case '2': LäggTillProdukt(); break;
+                        case '3': TaBortProdukt(); break;
+                        case '4': Uppdatering(); break;
+                        case 'q': return;
+                    }
+                    Console.WriteLine("Tryck på Enter");
+                    Console.ReadLine();
                 }
-                Console.WriteLine("Tryck på Enter");
-                Console.ReadLine();
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Fel namn eller lösenord, försök igen."); Console.ResetColor();
+                    Thread.Sleep(3000);
+                }
             }
         }
         public static void VisaProdukter()
         {
+            string Trim(string text, int max)
+            {
+                if (text.Length <= max)
+                {
+                    return text;
+                }
+                else
+                {
+                    return text.Substring(0, max - 3) + "...";
+                }
+            }
+
             using (var db = new MyDbContext())
             {
                 Console.Clear();
                 var produkter = db.Produkter
                     .Include(p => p.Storlekar)
+                    .Include(p => p.Leverantor)
                     .ToList();
 
-                Console.WriteLine("------------------------------------------------------------------------------------");
-                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"EnheterILager",-10}| ");
-                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------");
+                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"EnheterILager",-10}| {"Leverantör", -15} |");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------");
 
                 foreach (var produkt in produkter)
                 {
-                    string storlekarText = string.Join(", ", produkt.Storlekar.Select(s => s.Namn));
-                    Console.WriteLine($"| {produkt.Id,-5} | {produkt.Namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
-                        $"{storlekarText,-10}| {produkt.EnheterILager,-12} |");
+                    string namn = Trim(produkt.Namn, 20);
+                    string storlekarText = string.Join(", ", produkt.Storlekar.Select(s => s.Namn)); 
+                    string leverantorNamn = string.Join(", ", produkt.Leverantor != null ? produkt.Leverantor.Namn : "Ingen leverantör");
+
+                    Console.WriteLine($"| {produkt.Id,-5} | {namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
+                        $"{storlekarText,-10}| {produkt.EnheterILager,-12} | {leverantorNamn, -15} |");
                 }
-                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------");
             }
         }
         private static void LäggTillProdukt()
@@ -73,16 +107,26 @@ namespace WebbShop2
                 decimal pris = decimal.Parse(Console.ReadLine());
                 Console.Write("Ange kategoriId: ");
                 int kategoriId = int.Parse(Console.ReadLine());
+                Console.Write("Ange beskrivning: ");
+                string beskrivning = Console.ReadLine();
+                Console.Write("Ange antal enheter i lager: ");
+                int enheterILager = int.Parse(Console.ReadLine());
 
 
                 Console.Write("Ange storlekId: ");
                 int storlekId = int.Parse(Console.ReadLine());
 
+                Console.WriteLine("Ange leverantör: ");
+                Console.WriteLine(
+                    "1. Adidas\n" +
+                    "2. Nike\n" +
+                    "3. Zara\n" +
+                    "4. NordicWear AB\n" +
+                    "5. ScandiJeans"
+                    );
+                int leverantorId = int.Parse(Console.ReadLine());
 
-                Console.Write("Ange beskrivning: ");
-                string beskrivning = Console.ReadLine();
-                Console.Write("Ange antal enheter i lager: ");
-                int enheterILager = int.Parse(Console.ReadLine());
+
 
 
                 var storlek = db.Storlekar.FirstOrDefault(s => s.Id == storlekId);
@@ -92,7 +136,8 @@ namespace WebbShop2
                     Pris = pris,
                     KategoriId = kategoriId,
                     Beskrivning = beskrivning,
-                    EnheterILager = enheterILager
+                    EnheterILager = enheterILager,
+                    LeverantorId = leverantorId
                 };
                 if (storlek != null)
                 {
@@ -151,6 +196,8 @@ namespace WebbShop2
             {
                 case '1': AdminUpdate.Namn(); break;
                 case '2': AdminUpdate.Pris(); break;
+                case '3': AdminUpdate.Infotext(); break;
+                case '4': AdminUpdate.Leverantör(); break;
             }
         }
 

@@ -14,10 +14,12 @@ namespace WebbShop2.Models
         public int? KategoriId { get; set; }
         public string? Beskrivning { get; set; }
         public int? EnheterILager { get; set; }
-        
+        public int? LeverantorId { get; set; }
+
 
         // Navigationsproperty
         public virtual Kategori? Kategori { get; set; }
+        public virtual Leverantor? Leverantor { get; set; }
 
         public virtual ICollection<Storlek> Storlekar { get; set; } = new List<Storlek>();
     }

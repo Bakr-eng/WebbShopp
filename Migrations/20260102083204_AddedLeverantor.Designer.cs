@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebbShop2.Models;
 
@@ -10,9 +11,11 @@ using WebbShop2.Models;
 namespace WebbShop2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260102083204_AddedLeverantor")]
+    partial class AddedLeverantor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +68,6 @@ namespace WebbShop2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Namn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("telefonNummer")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

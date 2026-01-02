@@ -11,8 +11,8 @@ namespace WebbShop2.Models
     {
         public DbSet<Produkt> Produkter { get; set; }
         public DbSet<Kategori> Kategorier { get; set; }
-
         public DbSet<Storlek> Storlekar { get; set; }
+        public DbSet<Leverantor> Leverantorer { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
