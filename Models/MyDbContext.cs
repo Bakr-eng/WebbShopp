@@ -13,12 +13,29 @@ namespace WebbShop2.Models
         public DbSet<Kategori> Kategorier { get; set; }
         public DbSet<Storlek> Storlekar { get; set; }
         public DbSet<Leverantor> Leverantorer { get; set; }
+        public DbSet<ProduktStorlek> ProduktStorlekar { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
-
-
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+            base .OnModelCreating(modelBuilder); 
+
+            modelBuilder.Entity<ProduktStorlek>() 
+            .HasKey(ps => new { ps.ProduktId, ps.StorlekId });
+
+            modelBuilder.Entity<ProduktStorlek>()
+                .HasOne(ps => ps.Produkt)
+                .WithMany(p => p.ProduktStorlekar)
+                .HasForeignKey(ps => ps.ProduktId);
+
+            modelBuilder.Entity<ProduktStorlek>() 
+                .HasOne(ps => ps.Storlek)
+                .WithMany(s => s.ProduktStorlekar)
+                .HasForeignKey(ps => ps.StorlekId);
+        }
+
     }
 }

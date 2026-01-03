@@ -38,6 +38,7 @@ namespace WebbShop2
                         Console.WriteLine("Du har köpt byxorna. Tack för ditt köp!");
                         break;
 
+                    
                     case '0': Sökning(); break;
                     case '1': Tröjor(); break;
                     case '2': Byxor(); break;
@@ -55,11 +56,15 @@ namespace WebbShop2
             {
                 Console.Clear();
 
-
                 var tröjor = db.Produkter
-                    .Where(p => p.KategoriId == 1 && p.EnheterILager > 0)
-                    .Include(p => p.Storlekar)
+                    .Where(p => p.KategoriId == 1)
+                    .Include(p => p.ProduktStorlekar)
+                         .ThenInclude(ps => ps.Storlek)
+                    .ToList()
+                    .Where(p =>p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0)) 
+                    
                     .ToList();
+
 
                 int index = 1;
                 foreach (var tröja in tröjor)
@@ -98,12 +103,12 @@ namespace WebbShop2
                     Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
                     Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
 
-                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
-                    Console.WriteLine("Storlek: " + storlek);
+                    Console.WriteLine("\nStorlekar som finns:");
 
-
-
-
+                    foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                    {
+                        Console.WriteLine($"Storlek: {ps.Storlek.Namn}");
+                    }
                 }
                 else
                 {
@@ -121,8 +126,11 @@ namespace WebbShop2
                 Console.Clear();
 
                 var byxor = db.Produkter
-                    .Where(p => p.KategoriId == 2 && p.EnheterILager > 0)
-                    .Include(p => p.Storlekar)
+                    .Where(p => p.KategoriId == 2)
+                    .Include(p => p.ProduktStorlekar)
+                         .ThenInclude(ps => ps.Storlek)
+                    .ToList()
+                    .Where(p => p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0))
                     .ToList();
 
                 int index = 1;
@@ -153,9 +161,9 @@ namespace WebbShop2
                 Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
                 string input = Console.ReadLine();
 
-                if(int.TryParse(input, out int choice) && choice > 0 && choice <= byxor.Count)
+                if (int.TryParse(input, out int choice) && choice > 0 && choice <= byxor.Count)
                 {
-                    var valdProdukt = byxor[choice -1];
+                    var valdProdukt = byxor[choice - 1];
 
                     Console.Clear();
                     Console.WriteLine("=== Produktinformation ===");
@@ -163,11 +171,11 @@ namespace WebbShop2
                     Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
                     Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
 
-                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
-                    Console.WriteLine("Storlek: " + storlek);
-
-
-
+                    Console.WriteLine("\nStorlekar Som finns:");
+                    foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                    {
+                        Console.WriteLine($"Storlek: {ps.Storlek.Namn}");
+                    }
                 }
                 else
                 {
@@ -183,8 +191,11 @@ namespace WebbShop2
             {
                 Console.Clear();
                 var jackor = db.Produkter
-                    .Where(P => P.KategoriId == 3 && P.EnheterILager > 0)
-                    .Include(p => p.Storlekar)
+                    .Where(P => P.KategoriId == 3)
+                    .Include(p => p.ProduktStorlekar)
+                         .ThenInclude(ps => ps.Storlek)
+                    .ToList()
+                    .Where(p => p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0))
                     .ToList();
                 int index = 1;
 
@@ -222,11 +233,11 @@ namespace WebbShop2
                     Console.WriteLine($"Pris: {valdProdukt.Pris}kr");
                     Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
 
-                    string storlek = valdProdukt.Storlekar.FirstOrDefault()?.Namn ?? "-";
-                    Console.WriteLine("Storlek: " + storlek);
-
-
-
+                    Console.WriteLine("\nStorlekar som finns:");
+                    foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                    {
+                        Console.WriteLine($"Storlek: {ps.Storlek.Namn}");
+                    }
                 }
                 else
                 {
@@ -249,7 +260,7 @@ namespace WebbShop2
             {
                 Tröjor();
             }
-            else if ( searchTerm == "byxor" )
+            else if (searchTerm == "byxor")
             {
                 Byxor();
             }
@@ -263,7 +274,7 @@ namespace WebbShop2
             }
         }
 
-       
+
 
     }
 }

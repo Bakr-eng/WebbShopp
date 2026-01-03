@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebbShop2.Migrations;
 
 namespace WebbShop2.Models
 {
@@ -12,6 +13,6 @@ namespace WebbShop2.Models
         public string? Namn { get; set; }
 
         // Navigationsproperty
-        public virtual ICollection<Produkt> Produkter { get; set; } = new List<Produkt>();
+        public virtual ICollection<ProduktStorlek> ProduktStorlekar { get; set; } = new List<ProduktStorlek>();
     }
 }

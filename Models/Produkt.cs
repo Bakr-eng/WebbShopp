@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebbShop2.Migrations;
 
 namespace WebbShop2.Models
 {
@@ -13,7 +14,7 @@ namespace WebbShop2.Models
         public decimal? Pris { get; set; }
         public int? KategoriId { get; set; }
         public string? Beskrivning { get; set; }
-        public int? EnheterILager { get; set; }
+        
         public int? LeverantorId { get; set; }
 
 
@@ -21,6 +22,6 @@ namespace WebbShop2.Models
         public virtual Kategori? Kategori { get; set; }
         public virtual Leverantor? Leverantor { get; set; }
 
-        public virtual ICollection<Storlek> Storlekar { get; set; } = new List<Storlek>();
+        public virtual ICollection<ProduktStorlek> ProduktStorlekar { get; set; } = new List<ProduktStorlek>();
     }
 }

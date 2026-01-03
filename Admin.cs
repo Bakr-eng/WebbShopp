@@ -42,35 +42,32 @@ namespace WebbShop2
         }
         private static string LäsDoltLösenord()
         {
-            while (true)
+            string password = "";
+            ConsoleKeyInfo key;
+
+            do
             {
+                key = Console.ReadKey(true);
 
-                string password = "";
-                ConsoleKeyInfo key;
-
-                do
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
-                    key = Console.ReadKey(true);
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password.Substring(0, password.Length - 1);
+                    Console.Write("\b \b");
+                }
 
-                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
-                    {
-                        password += key.KeyChar;
-                        Console.Write("*");
-                    }
-                    else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
-                    {
-                        password = password.Substring(0, password.Length - 1);
-                        Console.Write("\b \b");
-                    }
+            } while (key.Key != ConsoleKey.Enter);
 
-                } while (key.Key != ConsoleKey.Enter);
-
-                Console.WriteLine();
-                return password;
+            Console.WriteLine();
+            return password;
 
 
-            }
         }
+        
 
         public static void AdminPanalen(string AdminNamn)
         {
@@ -98,7 +95,7 @@ namespace WebbShop2
         }
         public static void VisaProdukter()
         {
-            string Trim(string text, int max)
+            string Trim(string text, int max) 
             {
                 if (text.Length <= max)
                 {
@@ -113,23 +110,29 @@ namespace WebbShop2
             using (var db = new MyDbContext())
             {
                 Console.Clear();
+
                 var produkter = db.Produkter
-                    .Include(p => p.Storlekar)
+                    .Include(p => p.ProduktStorlekar)
+                        .ThenInclude(ps => ps.Storlek)
                     .Include(p => p.Leverantor)
                     .ToList();
 
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
-                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"EnheterILager",-10}| {"Leverantör", -15} |");
+                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"Lager",-10}| {"Leverantör",-15} |");
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
 
                 foreach (var produkt in produkter)
                 {
-                    string namn = Trim(produkt.Namn, 20);
-                    string storlekarText = string.Join(", ", produkt.Storlekar.Select(s => s.Namn)); 
+                    string namn = Trim(produkt.Namn, 20); 
+
+                    string storlekarText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => ps.Storlek.Namn));
+
+                    string lagerText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => $"{ps.Storlek.Namn}:{ps.EnheterIlager}"));
+
                     string leverantorNamn = string.Join(", ", produkt.Leverantor != null ? produkt.Leverantor.Namn : "Ingen leverantör");
 
                     Console.WriteLine($"| {produkt.Id,-5} | {namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
-                        $"{storlekarText,-10}| {produkt.EnheterILager,-12} | {leverantorNamn, -15} |");
+                        $"{storlekarText,-10}| {lagerText,-12} | {leverantorNamn,-15} |");
                 }
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
             }
@@ -138,66 +141,92 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
-                Console.Clear();
-                Console.WriteLine("Adminpanalen - Lägg till produkt");
-                Console.WriteLine("-------------------------------");
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Lägg till produkt"); Console.ResetColor();
-                Console.WriteLine("----------------");
-                Console.Write("Ange produktnamn: ");
-                string namn = Console.ReadLine();
-                Console.Write("Ange pris: ");
-                decimal pris = decimal.Parse(Console.ReadLine());
-                Console.Write("Ange kategoriId: ");
-                int kategoriId = int.Parse(Console.ReadLine());
-                Console.Write("Ange beskrivning: ");
-                string beskrivning = Console.ReadLine();
-                Console.Write("Ange antal enheter i lager: ");
-                int enheterILager = int.Parse(Console.ReadLine());
-
-
-                Console.Write("Ange storlekId: ");
-                int storlekId = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("Ange leverantör: ");
-                Console.WriteLine(
-                    "1. Adidas\n" +
-                    "2. Nike\n" +
-                    "3. Zara\n" +
-                    "4. NordicWear AB\n" +
-                    "5. ScandiJeans"
-                    );
-                int leverantorId = int.Parse(Console.ReadLine());
-
-
-
-
-                var storlek = db.Storlekar.FirstOrDefault(s => s.Id == storlekId);
-                var nyProdukt = new Produkt
-                {
-                    Namn = namn,
-                    Pris = pris,
-                    KategoriId = kategoriId,
-                    Beskrivning = beskrivning,
-                    EnheterILager = enheterILager,
-                    LeverantorId = leverantorId
-                };
-                if (storlek != null)
-                {
-                    nyProdukt.Storlekar.Add(storlek);
-
-                }
-                db.Produkter.Add(nyProdukt);
-
                 try
                 {
+                    Console.Clear();
+                    Console.WriteLine("Adminpanalen - Lägg till produkt");
+                    Console.WriteLine("-------------------------------");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Lägg till produkt"); Console.ResetColor();
+                    Console.WriteLine("----------------");
+
+                    Console.Write("Ange produktnamn: ");
+                    string namn = Console.ReadLine();
+
+                    Console.Write("Ange pris: ");
+                    decimal pris = decimal.Parse(Console.ReadLine());
+
+                    Console.Write("Ange kategoriId: ");
+                    int kategoriId = int.Parse(Console.ReadLine());
+
+                    Console.Write("Ange beskrivning: ");
+                    string beskrivning = Console.ReadLine();
+
+
+                    Console.WriteLine("Ange leverantör: ");
+                    Console.WriteLine(
+                        "1. Adidas\n" +
+                        "2. Nike\n" +
+                        "3. Zara\n" +
+                        "4. NordicWear AB\n" +
+                        "5. ScandiJeans"
+                        );
+                    int leverantorId = int.Parse(Console.ReadLine());
+
+                    var nyProdukt = new Produkt
+                    {
+                        Namn = namn,
+                        Pris = pris,
+                        KategoriId = kategoriId,
+                        Beskrivning = beskrivning,
+                        LeverantorId = leverantorId
+                    };
+                    db.Produkter.Add(nyProdukt);
                     db.SaveChanges();
-                    Console.Write($"Produkten '{namn}' med pris {pris} kr, kategori '{kategoriId}' storlek '{storlekId}' och beskrivning '{beskrivning}'");
-                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine(" har lagts till i databasen."); Console.ResetColor();
+
+                    Console.Clear();
+                    Console.WriteLine($"Produkten '{namn}' skapad!");
+                    Console.WriteLine("Nu lägger vi till storlekar.");
+                    Console.WriteLine("-----------------------");
+
+                    while (true)
+                    {
+                        Console.WriteLine("\nTillgängliga storlekar:");
+                        foreach (var s in db.Storlekar)
+                        {
+                            Console.WriteLine($"{s.Id}. {s.Namn}");
+                        }
+                        Console.Write("Ange storlek-ID (eller 0 för att avsluta): ");
+                        int storlekId = int.Parse(Console.ReadLine());
+                        if (storlekId == 0)
+                        {
+                            break;
+                        }
+
+                        Console.Write("Ange antal i lager för denna storlek: ");
+                        int antal = int.Parse(Console.ReadLine());
+
+                        var ps = new ProduktStorlek
+                        {
+                            ProduktId = nyProdukt.Id,
+                            StorlekId = storlekId,
+                            EnheterIlager = antal
+                        };
+                        db.ProduktStorlekar.Add(ps);
+                        db.SaveChanges();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Storlek tillagd!");
+                        Console.ResetColor();
+                        Thread.Sleep(1500);
+                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nProdukten '{namn}' är nu helt klar med storlekar!");
+                    Console.ResetColor();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("nogot gich fel: " + ex.InnerException);
-
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Något gick fel: " + ex.InnerException);
+                    Console.ResetColor();
                 }
             }
         }
