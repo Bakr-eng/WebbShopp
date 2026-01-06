@@ -21,6 +21,7 @@ namespace WebbShop2
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Välkommen till den bästa WebbShoppen!"); Console.ResetColor();
 
                 ShopLayout.DrawLayout();
+                ShopLayout.LogInLayout();
 
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
@@ -44,7 +45,7 @@ namespace WebbShop2
                     case '2': Byxor(); break;
                     case '3': Jackor(); break;
 
-                    case 'x': Admin.Start(); break;
+                    case 'y': Admin.Start(); break;
                 }
                 Console.ReadLine();
             }
@@ -115,6 +116,22 @@ namespace WebbShop2
                     Console.WriteLine("Ogiltigt val.");
                 }
 
+                ShopLayout.BuyLayout();
+                var key = Console.ReadKey();
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '1':
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Denna produkt har lagts till i din varukorg!");
+                        Console.ResetColor();
+                        Thread.Sleep(2000);
+                        break;
+                    case '2':
+                        return;
+
+                }
+
                 Console.WriteLine("\nTryck Enter för att återgå...");
             }
 
@@ -182,6 +199,21 @@ namespace WebbShop2
                     Console.WriteLine("Ogiltigt val.");
                 }
 
+                ShopLayout.BuyLayout();
+                var key = Console.ReadKey();
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '1':
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Denna produkt har lagts till i din varukorg!");
+                        Console.ResetColor();
+                        Thread.Sleep(2000);
+                        break;
+                    case '2':
+                        return;
+                }
+
                 Console.WriteLine("\nTryck Enter för att återgå...");
             }
         }
@@ -222,12 +254,11 @@ namespace WebbShop2
 
                 Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
                 string input = Console.ReadLine();
-
+                
                 if (int.TryParse(input, out int choice) && choice > 0 && choice <= jackor.Count)
                 {
                     var valdProdukt = jackor[choice - 1];
                     Console.Clear();
-
                     Console.WriteLine("=== Produktinformation ===");
                     Console.WriteLine($"Namn: {valdProdukt.Namn}");
                     Console.WriteLine($"Pris: {valdProdukt.Pris}kr");
@@ -244,6 +275,21 @@ namespace WebbShop2
                     Console.WriteLine("Ogiltigt val.");
                 }
 
+                ShopLayout.BuyLayout();
+                var Key = Console.ReadKey();
+                switch (char.ToLower(Key.KeyChar))
+                {
+                    case '1':
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Denna produkt har lagts till i din varukorg!");
+                        Console.ResetColor();
+                        Thread.Sleep(2000);
+                        break;
+                    case '2':
+                        return;
+                }
+                
                 Console.WriteLine("\nTryck Enter för att återgå...");
 
 

@@ -67,8 +67,6 @@ namespace WebbShop2
 
 
         }
-        
-
         public static void AdminPanalen(string AdminNamn)
         {
             while (true)
@@ -118,21 +116,24 @@ namespace WebbShop2
                     .ToList();
 
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
-                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"Lager",-10}| {"Leverantör",-15} |");
+                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"Lager",-13}| {"Leverantör",-15} |");
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
 
                 foreach (var produkt in produkter)
                 {
-                    string namn = Trim(produkt.Namn, 20); 
+                    string namn = Trim(produkt.Namn, 20);
+                   // string storlek = Trim(produkt.)
 
                     string storlekarText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => ps.Storlek.Namn));
+                    string storlek = Trim(storlekarText, 10);
 
                     string lagerText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => $"{ps.Storlek.Namn}:{ps.EnheterIlager}"));
+                    string lager = Trim(lagerText, 12);
 
                     string leverantorNamn = string.Join(", ", produkt.Leverantor != null ? produkt.Leverantor.Namn : "Ingen leverantör");
 
                     Console.WriteLine($"| {produkt.Id,-5} | {namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
-                        $"{storlekarText,-10}| {lagerText,-12} | {leverantorNamn,-15} |");
+                        $"{storlek,-10}| {lager,-12} | {leverantorNamn,-15} |");
                 }
                 Console.WriteLine("------------------------------------------------------------------------------------------------------");
             }

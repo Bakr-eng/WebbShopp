@@ -15,6 +15,9 @@ namespace WebbShop2.Models
         public DbSet<Leverantor> Leverantorer { get; set; }
         public DbSet<ProduktStorlek> ProduktStorlekar { get; set; }
 
+        public DbSet<Kund> Kunder { get; set; }
+        public DbSet<Adress> Adresser { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");

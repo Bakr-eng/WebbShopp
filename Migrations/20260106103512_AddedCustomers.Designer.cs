@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebbShop2.Models;
 
@@ -10,9 +11,11 @@ using WebbShop2.Models;
 namespace WebbShop2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260106103512_AddedCustomers")]
+    partial class AddedCustomers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,35 +23,6 @@ namespace WebbShop2.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("WebbShop2.Models.Adress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("GatuAdress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Land")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Postnummer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Adresser");
-                });
 
             modelBuilder.Entity("WebbShop2.Models.Kategori", b =>
                 {
@@ -65,40 +39,6 @@ namespace WebbShop2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kategorier");
-                });
-
-            modelBuilder.Entity("WebbShop2.Models.Kund", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AdressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Anvandarnamn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Losenord")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdressId");
-
-                    b.ToTable("Kunder");
                 });
 
             modelBuilder.Entity("WebbShop2.Models.Leverantor", b =>
@@ -190,15 +130,6 @@ namespace WebbShop2.Migrations
                     b.ToTable("Storlekar");
                 });
 
-            modelBuilder.Entity("WebbShop2.Models.Kund", b =>
-                {
-                    b.HasOne("WebbShop2.Models.Adress", "Adress")
-                        .WithMany("Kunder")
-                        .HasForeignKey("AdressId");
-
-                    b.Navigation("Adress");
-                });
-
             modelBuilder.Entity("WebbShop2.Models.Produkt", b =>
                 {
                     b.HasOne("WebbShop2.Models.Kategori", "Kategori")
@@ -231,11 +162,6 @@ namespace WebbShop2.Migrations
                     b.Navigation("Produkt");
 
                     b.Navigation("Storlek");
-                });
-
-            modelBuilder.Entity("WebbShop2.Models.Adress", b =>
-                {
-                    b.Navigation("Kunder");
                 });
 
             modelBuilder.Entity("WebbShop2.Models.Kategori", b =>

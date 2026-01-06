@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +12,9 @@ namespace WebbShop2
     {
         public static void DrawLayout()
         {
-            List<string> sökning = new List<string> {"0 för att söka", "____________________" };
-            var windowSearch = new Window("Sökning", 50, 0, sökning);
+            List<string> sökning = new List<string> {"0 söka", "_____________________________" };
+            var windowSearch = new Window("Sökning", 40, 0, sökning);
             windowSearch.Draw();
-
-            List<string> AdminKnappt = new List<string> { "Tryck på X för att gå till Adminpanelen" };
-            var windowAdmin = new Window("Admin", 76, 0, AdminKnappt);
-            windowAdmin.Draw();
 
             List<string> erbjudandeA = new List<string> { "Fin tröja i ull", "pris: 199 kr ", "A för att lägga till varukorg", "" };
             var windowCartA = new Window("erbjudande 1", 1, 7, erbjudandeA);
@@ -38,7 +35,7 @@ namespace WebbShop2
         public static void AdminLayout()
         {
             List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter" };
-            var windowAdminOption = new Window("Admin Panel",0,3, AdminOption);
+            var windowAdminOption = new Window("Admin Panel",0,8, AdminOption);
             windowAdminOption.Draw();
         }
         public static void AdminUpdateLayout()
@@ -46,6 +43,29 @@ namespace WebbShop2
             List<string> AdminUpdateOption = new List<string> {"1. Uppdatera Namn", "2. Uppdatera Pris", "3. uppdatera Infotext", "4. Leverantör" };
             var winedowAdminUpdateOption = new Window("Uppdatera Produkt", 0, 3, AdminUpdateOption);
             winedowAdminUpdateOption.Draw();
+
+        }
+
+        public static void BuyLayout()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            List<string> BuyOption = new List<string> { "1.🛒 Köp nu" };
+            var windowBuyOption = new Window("", 100, 0, BuyOption);
+            windowBuyOption.Draw();
+            Console.ResetColor();
+        }
+
+        public static void LogInLayout()
+        {
+            List<string> AdminKnappt = new List<string> { "Y. Logga in som Admin!" };
+            var windowAdmin = new Window("", 93, 3, AdminKnappt);
+            windowAdmin.Draw();
+
+            List<string> Kundknappt = new List<string> { "X. Logga in/Registrera som Kund!"};
+            var windowKund = new Window("", 83, 0, Kundknappt);
+            windowKund.Draw();
 
         }
     }
