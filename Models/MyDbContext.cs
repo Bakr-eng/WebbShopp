@@ -14,6 +14,7 @@ namespace WebbShop2.Models
         public DbSet<Storlek> Storlekar { get; set; }
         public DbSet<Leverantor> Leverantorer { get; set; }
         public DbSet<ProduktStorlek> ProduktStorlekar { get; set; }
+        public DbSet<Varukorg> Varukorgar { get; set; }
 
         public DbSet<Kund> Kunder { get; set; }
         public DbSet<Adress> Adresser { get; set; }

@@ -45,18 +45,16 @@ namespace WebbShop2
             winedowAdminUpdateOption.Draw();
 
         }
-
         public static void BuyLayout()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            List<string> BuyOption = new List<string> { "1.🛒 Köp nu" };
+            List<string> BuyOption = new List<string> { "0.🛒 Köp nu" };
             var windowBuyOption = new Window("", 100, 0, BuyOption);
             windowBuyOption.Draw();
             Console.ResetColor();
         }
-
         public static void LogInLayout()
         {
             List<string> AdminKnappt = new List<string> { "Y. Logga in som Admin!" };
