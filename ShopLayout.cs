@@ -1,6 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,18 @@ namespace WebbShop2
             var windowCategories = new Window("Kategorier", 1, 15, Kategorier);
             windowCategories.Draw();
         }
+        public static void LogInLayout()
+        {
+            List<string> AdminKnappt = new List<string> { "Y. Logga in som Admin!" };
+            var windowAdmin = new Window("", 93, 3, AdminKnappt);
+            windowAdmin.Draw();
+
+            List<string> Kundknappt = new List<string> { "X. Logga in/Registrera som Kund!"};
+            var windowKund = new Window("", 83, 0, Kundknappt);
+            windowKund.Draw();
+
+        }
+
         public static void AdminLayout()
         {
             List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter" };
@@ -45,6 +58,7 @@ namespace WebbShop2
             winedowAdminUpdateOption.Draw();
 
         }
+
         public static void BuyLayout()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -55,16 +69,16 @@ namespace WebbShop2
             windowBuyOption.Draw();
             Console.ResetColor();
         }
-        public static void LogInLayout()
+        public static void CustomersLayout()
         {
-            List<string> AdminKnappt = new List<string> { "Y. Logga in som Admin!" };
-            var windowAdmin = new Window("", 93, 3, AdminKnappt);
-            windowAdmin.Draw();
+            List<string> CustomerOption = new List<string> { "1. Logga in", "2. Registrera" };
+            var windowCustomerOption = new Window("",0, 3, CustomerOption);
+            windowCustomerOption.Draw();
 
-            List<string> Kundknappt = new List<string> { "X. Logga in/Registrera som Kund!"};
-            var windowKund = new Window("", 83, 0, Kundknappt);
-            windowKund.Draw();
-
+            List<string> QOption = new List<string> { "Q. Tillbaka" };
+            var windowQOption = new Window("", 100, 0, QOption);
+            windowQOption.Draw();
         }
+        
     }
 }

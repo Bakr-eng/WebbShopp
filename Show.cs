@@ -45,6 +45,7 @@ namespace WebbShop2
                     case '2': Byxor(); break;
                     case '3': Jackor(); break;
 
+                    case 'x': KundSida.Start(); break;
                     case 'y': Admin.Start(); break;
                 }
                 Console.ReadLine();
@@ -120,15 +121,14 @@ namespace WebbShop2
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
-                    case '1':
+                    case '0':
                         Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Denna produkt har lagts till i din varukorg!");
                         Console.ResetColor();
                         Thread.Sleep(2000);
                         break;
-                    case '2':
-                        return;
+                   
 
                 }
 
@@ -203,15 +203,14 @@ namespace WebbShop2
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
-                    case '1':
+                    case '0':
                         Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Denna produkt har lagts till i din varukorg!");
                         Console.ResetColor();
                         Thread.Sleep(2000);
                         break;
-                    case '2':
-                        return;
+                    
                 }
 
                 Console.WriteLine("\nTryck Enter för att återgå...");
@@ -279,15 +278,14 @@ namespace WebbShop2
                 var Key = Console.ReadKey();
                 switch (char.ToLower(Key.KeyChar))
                 {
-                    case '1':
+                    case '0':
                         Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Denna produkt har lagts till i din varukorg!");
                         Console.ResetColor();
                         Thread.Sleep(2000);
                         break;
-                    case '2':
-                        return;
+                   
                 }
                 
                 Console.WriteLine("\nTryck Enter för att återgå...");

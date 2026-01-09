@@ -157,13 +157,18 @@ namespace WebbShop2
                     decimal pris = decimal.Parse(Console.ReadLine());
 
                     Console.Write("Ange kategoriId: ");
+                    Console.WriteLine(
+                        "1. Tröjor\n" +
+                        "2. Byxor\n" +
+                        "3. Jackor"
+                        );
                     int kategoriId = int.Parse(Console.ReadLine());
 
                     Console.Write("Ange beskrivning: ");
                     string beskrivning = Console.ReadLine();
 
 
-                    Console.WriteLine("Ange leverantör: ");
+                    Console.WriteLine("Ange leverantörId: ");
                     Console.WriteLine(
                         "1. Adidas\n" +
                         "2. Nike\n" +
@@ -220,7 +225,7 @@ namespace WebbShop2
                         Thread.Sleep(1500);
                     }
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nProdukten '{namn}' är nu helt klar med storlekar!");
+                    Console.WriteLine($"\nProdukten '{namn}'är nu helt klar med storlekar!");
                     Console.ResetColor();
                 }
                 catch (Exception ex)
