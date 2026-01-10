@@ -31,7 +31,9 @@ namespace WebbShop2
                     {
                         db.SaveChanges();
                         Console.Write($"Priset för produkten '{produkt.Namn}' ");
-                        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($" har uppdaterats till {nyttPris} kr."); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($" har uppdaterats till {nyttPris} kr.");
+                        Console.ResetColor();
                     }
                     catch (Exception ex)
                     {

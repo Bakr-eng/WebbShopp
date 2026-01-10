@@ -56,8 +56,8 @@ namespace WebbShop2
                 }
                 else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
                 {
-                    password = password.Substring(0, password.Length - 1);
-                    Console.Write("\b \b");
+                    password = password.Substring(0, password.Length - 1); // Ta bort sista tecknet
+                    Console.Write("\b \b"); // Ta bort asterisken från konsolen
                 }
 
             } while (key.Key != ConsoleKey.Enter);

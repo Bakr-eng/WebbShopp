@@ -8,12 +8,12 @@ namespace WebbShop2.Models
 {
     internal class ProduktStorlek
     {
-        public int? ProduktId { get; set; }
+        public int ProduktId { get; set; }
         public virtual Produkt Produkt { get; set; }
 
-        public int? StorlekId { get; set; }
+        public int StorlekId { get; set; }
         public virtual Storlek Storlek { get; set; }
 
-        public int? EnheterIlager { get; set; }
+        public int EnheterIlager { get; set; }
     }
 }

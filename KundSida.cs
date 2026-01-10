@@ -98,7 +98,7 @@ namespace WebbShop2
 
                 var nyKund = new Kund
                 {
-                    Anvandarnamn = förnamn + efternamn +((förnamn.Length + efternamn.Length)+ 3000),
+                    Anvandarnamn = förnamn + efternamn +((förnamn.Length + efternamn.Length)),
                     Losenord = losenord,
                     Email = email,
                     Phone = phone,
