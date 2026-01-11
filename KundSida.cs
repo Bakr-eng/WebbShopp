@@ -18,20 +18,22 @@ namespace WebbShop2
 
                 Console.Clear();
                 Console.WriteLine("Välj ett alternativ:");
+                Console.WriteLine("Tryck q för att gå till startsidan");
                 Console.WriteLine("--------------------");
                 ShopLayout.CustomersLayout();
 
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
+                    case '1': LoggaIn(); break;
                     case '2': Registrera(); break;
                     case 'q': return;
                 }
             }
         }
-        public static void Registrera()
+        private static void Registrera()
         {
-            using (var db = new Models.MyDbContext())
+            using (var db = new MyDbContext())
             {
                 Console.Clear();
                 Console.WriteLine("Registrera ny kund");
@@ -95,10 +97,9 @@ namespace WebbShop2
                     
                 }
 
-
                 var nyKund = new Kund
                 {
-                    Anvandarnamn = förnamn + efternamn +((förnamn.Length + efternamn.Length)),
+                    //Anvandarnamn = förnamn + efternamn,
                     Losenord = losenord,
                     Email = email,
                     Phone = phone,
@@ -108,6 +109,11 @@ namespace WebbShop2
                 try
                 {
                     db.Kunder.Add(nyKund);
+                    db.SaveChanges();
+
+
+                    nyKund.Anvandarnamn = förnamn + efternamn + nyKund.Id;
+
                     db.SaveChanges();
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -126,13 +132,47 @@ namespace WebbShop2
                     Console.WriteLine("Något gick fel vid registreringen: " + ex.InnerException); 
                     Console.ResetColor();
                     Console.ReadKey();
-
                 }
             }
-            
-
-            
         }
+        private static void LoggaIn()
+        {
+            using (var db = new MyDbContext())
+            {
+                while (true)
+                {
+                    Console.Clear();
+                    Console.Write("ange ditt användarnamn; ");
+                    string namn = Console.ReadLine();
+
+                    Console.WriteLine("Ange ditt lösenord:");
+                    string losenord = Console.ReadLine();
+
+                    var logIn = db.Kunder.FirstOrDefault();
+
+                    if (logIn.Anvandarnamn == namn && logIn.Losenord == losenord)
+                    {
+                        Console.WriteLine("välkomen");
+                        Console.ReadLine();
+                        return;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Fel namn eller lösenord! ");
+                        Console.ResetColor();
+                        Console.WriteLine("Tryck på valfri knappt för att försöka igen: ");
+                        Console.ReadKey();
+                    }
+                }
+           
+
+
+
+            }
+        }
+
+        
     }
 }
 

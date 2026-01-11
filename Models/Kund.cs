@@ -9,7 +9,7 @@ namespace WebbShop2.Models
     internal class Kund
     {
         public int Id { get; set; }
-        public string Anvandarnamn { get; set; }
+        public string? Anvandarnamn { get; set; }
         public string Losenord { get; set; }
         public string Email { get; set; }
         public int Phone { get; set; }

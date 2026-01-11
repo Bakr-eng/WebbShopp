@@ -16,47 +16,10 @@ namespace WebbShop2
     {
         public static void Display()
         {
-            while (true)
-            {
-
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Välkommen till den bästa WebbShoppen!");
-                Console.ResetColor();
-
-                ShopLayout.DrawLayout();
-                ShopLayout.LogInLayout();
-
-                var key = Console.ReadKey();
-                switch (char.ToLower(key.KeyChar))
-                {
-                    case 'a':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt tröjan i ull. Tack för ditt köp!");
-                        break;
-                    case 'b':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt skjortan. Tack för ditt köp!");
-                        break;
-                    case 'c':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt byxorna. Tack för ditt köp!");
-                        break;
-
-                    
-                    case '0': Sökning(); break;
-                    case '1': Tröjor(); break;
-                    case '2': Byxor(); break;
-                    case '3': Jackor(); break;
-
-                    case 'x': KundSida.Start(); break;
-                    case 'y': Admin.Start(); break;
-                }
-                Console.ReadLine();
-            }
+           
         }
 
-        private static void Tröjor()
+        public static void Tröjor()
         {
             using (var db = new MyDbContext())
             {
@@ -167,7 +130,7 @@ namespace WebbShop2
             }
 
         }
-        private static void Byxor()
+        public static void Byxor()
         {
             using (var db = new MyDbContext())
             {
@@ -274,7 +237,7 @@ namespace WebbShop2
                 Console.WriteLine("\nTryck Enter för att återgå...");
             }
         }
-        private static void Jackor()
+        public static void Jackor()
         {
             using (var db = new MyDbContext())
             {
@@ -380,7 +343,7 @@ namespace WebbShop2
             }
 
         }
-        private static void Sökning()
+        public static void Sökning()
         {
             Console.Clear();
             Console.WriteLine("Sök efter en produkt: ");
@@ -404,10 +367,7 @@ namespace WebbShop2
             }
         }
 
-        private static void VarukorgTröja()
-        {
-
-        }
+       
 
 
 
