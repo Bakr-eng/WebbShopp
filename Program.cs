@@ -4,7 +4,6 @@
     {
         static void Main(string[] args)
         {
-            Show.Display();
 
             while (true)
             {
@@ -16,31 +15,24 @@
 
                 ShopLayout.DrawLayout();
                 ShopLayout.LogInLayout();
+                ErbjudandeProdukter.VisaErbjudandeProdukter();
+                
+
 
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
-                    case 'a':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt tröjan i ull. Tack för ditt köp!");
-                        break;
-                    case 'b':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt skjortan. Tack för ditt köp!");
-                        break;
-                    case 'c':
-                        Console.Clear();
-                        Console.WriteLine("Du har köpt byxorna. Tack för ditt köp!");
-                        break;
-
-
-                    case '0': Show.Sökning(); break;
-                    case '1': Show.Tröjor(); break;
-                    case '2': Show.Byxor(); break;
-                    case '3': Show.Jackor(); break;
-
+                    
+                    case 't': Show.Tröjor(); break;
+                    case 'b': Show.Byxor(); break;
+                    case 'j': Show.Jackor(); break;
                     case 'x': KundSida.Start(); break;
                     case 'y': Admin.Start(); break;
+                    case '0': Show.Sökning(); break;
+
+
+                    default: ErbjudandeProdukter.SeErbjudandeinfo(); break;
+
                 }
                 Console.ReadLine();
             }

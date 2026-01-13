@@ -13,7 +13,7 @@ namespace WebbShop2
     {
         public static void Start()
         {
-            string AdminNamn = "Bakr Khalil";
+            string AdminNamn = "Bakr";
             var password = "0000";
             while (true)
             {
@@ -115,27 +115,41 @@ namespace WebbShop2
                     .Include(p => p.Leverantor)
                     .ToList();
 
-                Console.WriteLine("------------------------------------------------------------------------------------------------------");
-                Console.WriteLine($"| {"ID",-5} | {"Namn",-20} | {"Pris",-10} | {"KategoriId",-3}| {"Storlekar",-8} | {"Lager",-13}| {"Leverantör",-15} |");
-                Console.WriteLine("------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine($"| {"ID",-5} | {"Namn",-16} | {"Pris",-9} | {"KategoriId",-3}| {"Storlekar",-8} | {"Lager",-13}| {"Leverantör",-13} | {"Erbjudande", -10} |");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
 
                 foreach (var produkt in produkter)
                 {
-                    string namn = Trim(produkt.Namn, 20);
-                   // string storlek = Trim(produkt.)
-
+                    string namn = Trim(produkt.Namn, 16);
                     string storlekarText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => ps.Storlek.Namn));
                     string storlek = Trim(storlekarText, 10);
-
                     string lagerText = string.Join(", ", produkt.ProduktStorlekar.Select(ps => $"{ps.Storlek.Namn}:{ps.EnheterIlager}"));
                     string lager = Trim(lagerText, 12);
-
                     string leverantorNamn = string.Join(", ", produkt.Leverantor != null ? produkt.Leverantor.Namn : "Ingen leverantör");
 
-                    Console.WriteLine($"| {produkt.Id,-5} | {namn,-20} | {produkt.Pris,-10} | {produkt.KategoriId,-9} | " +
-                        $"{storlek,-10}| {lager,-12} | {leverantorNamn,-15} |");
+                
+                    Console.Write($"| {produkt.Id,-5} | {namn,-16} | {produkt.Pris,-9} | {produkt.KategoriId,-9} | " +
+                        $"{storlek,-10}| {lager,-12} | {leverantorNamn,-13} |");
+
+                    if (produkt.Erbjudande == false)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write($" {produkt.Erbjudande,-10}");
+                        Console.ResetColor();
+                    }
+                    else if (produkt.Erbjudande == true)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write($" {produkt.Erbjudande,-10}");
+                        Console.ResetColor();
+                    }
+                    Console.WriteLine(" |");
+
+
+
                 }
-                Console.WriteLine("------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------");
             }
         }
         private static void LäggTillProdukt()
@@ -156,7 +170,7 @@ namespace WebbShop2
                     Console.Write("Ange pris: ");
                     decimal pris = decimal.Parse(Console.ReadLine());
 
-                    Console.Write("Ange kategoriId: ");
+                    Console.WriteLine("Ange kategoriId: ");
                     Console.WriteLine(
                         "1. Tröjor\n" +
                         "2. Byxor\n" +
@@ -275,6 +289,8 @@ namespace WebbShop2
                 case '2': AdminUpdate.Pris(); break;
                 case '3': AdminUpdate.Infotext(); break;
                 case '4': AdminUpdate.Leverantör(); break;
+                case '5': AdminUpdate.HanteraErbjudande(); break;
+
             }
         }
 

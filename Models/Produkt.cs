@@ -15,6 +15,7 @@ namespace WebbShop2.Models
         public int? KategoriId { get; set; }
         public string? Beskrivning { get; set; }
         public int? LeverantorId { get; set; }
+        public bool Erbjudande { get; set; } = false;
 
 
         // Navigationsproperty

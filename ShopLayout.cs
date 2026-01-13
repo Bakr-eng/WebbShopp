@@ -17,20 +17,8 @@ namespace WebbShop2
             var windowSearch = new Window("Sökning", 40, 0, sökning);
             windowSearch.Draw();
 
-            List<string> erbjudandeA = new List<string> { "Fin tröja i ull", "pris: 199 kr ", "A för att lägga till varukorg", "" };
-            var windowCartA = new Window("erbjudande 1", 1, 7, erbjudandeA);
-            windowCartA.Draw();
-
-            List<string> erbjudandeB = new List<string> { "Skjorta", "Snygg skjorta för alla tillfällen ", "Pris: 299 kr ", "B för att lägga till varukorg" };
-            var windowCartB = new Window("erbjudande 2",35, 7, erbjudandeB);
-            windowCartB.Draw();
-
-            List<string> erbjudandeC = new List<string> { "Byxor", "Lagom långa byxor ", "Pris: 399 kr ", "C för att lägga till varukorg" };
-            var windowCartC = new Window("erbjudande 3", 75, 7, erbjudandeC);
-            windowCartC.Draw();
-
-            List<string> Kategorier = new List<string> { "1. Tröjor", "2. Byxor", "3. Jackor" };
-            var windowCategories = new Window("Kategorier", 1, 15, Kategorier);
+            List<string> Kategorier = new List<string> { "T. Tröjor", "B. Byxor", "J. Jackor" };
+            var windowCategories = new Window("Kategorier", 40, 5, Kategorier);
             windowCategories.Draw();
         }
         public static void LogInLayout()
@@ -44,7 +32,6 @@ namespace WebbShop2
             windowKund.Draw();
 
         }
-
         public static void AdminLayout()
         {
             List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter" };
@@ -53,12 +40,11 @@ namespace WebbShop2
         }
         public static void AdminUpdateLayout()
         {
-            List<string> AdminUpdateOption = new List<string> {"1. Uppdatera Namn", "2. Uppdatera Pris", "3. uppdatera Infotext", "4. Leverantör" };
+            List<string> AdminUpdateOption = new List<string> {"1. Namn", "2. Pris", "3. Infotext", "4. Leverantör", "5. Erbjudande produkter" };
             var winedowAdminUpdateOption = new Window("Uppdatera Produkt", 0, 3, AdminUpdateOption);
             winedowAdminUpdateOption.Draw();
 
         }
-
         public static void BuyLayout()
         {
             Console.OutputEncoding = Encoding.UTF8;

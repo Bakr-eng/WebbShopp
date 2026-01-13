@@ -23,7 +23,10 @@ namespace WebbShop2
                 Console.Write("Ange det nya priset: ");
                 decimal nyttPris = decimal.Parse(Console.ReadLine());
 
-                var produkt = db.Produkter.Where(p => p.Id == produktId).FirstOrDefault();
+                var produkt = db.Produkter
+                    .Where(p => p.Id == produktId)
+                    .FirstOrDefault();
+
                 if (produkt != null)
                 {
                     produkt.Pris = nyttPris;
@@ -37,7 +40,10 @@ namespace WebbShop2
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Något gick fel: " + ex.InnerException);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("Något gick fel: ");
+                        Console.ResetColor();
+                        Console.WriteLine(ex.InnerException);
                     }
                 }
                 else
@@ -172,6 +178,69 @@ namespace WebbShop2
                     Console.WriteLine("Produkten med angivet Id hittades inte.");
                 }
 
+            }
+        }
+        public static void HanteraErbjudande()
+        {
+            using (var db = new MyDbContext())
+            {
+                Console.Clear();
+                Admin.VisaProdukter();
+                Console.WriteLine("hantera erbjudande");
+                Console.WriteLine("-----------------");
+                Console.Write("Ange produktens ID som du vill lägga till eller ta bort från erbjudanden: ");
+                int produktId = int.Parse(Console.ReadLine());
+
+                var produkt = db.Produkter
+                    .Where(p => p.Id == produktId)
+                    .FirstOrDefault();
+
+                if (produkt != null)
+                {
+                    Console.WriteLine("Tryck T för att lägga till i erbjudanden\nTryck F för att ta bort från erbjudanden:");
+                    char erbjudandeVal = char.Parse(Console.ReadLine().ToLower());
+
+                    if (erbjudandeVal == 't')
+                    {
+                        produkt.Erbjudande = true;
+                        try
+                        {
+                            db.SaveChanges();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Produkten har lagts till som erbjudande.");
+                            Console.ResetColor();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("Något gick fel: ");
+                            Console.ResetColor();
+                            Console.WriteLine(ex.InnerException);
+                        }
+                    }
+                    else if (erbjudandeVal == 'f')
+                    {
+                        produkt.Erbjudande = false;
+                        try
+                        {
+                            db.SaveChanges();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Produkten har tagits bort från erbjudanden.");
+                            Console.ResetColor();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("Något gick fel: ");
+                            Console.ResetColor();
+                            Console.WriteLine(ex.InnerException);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Produkten med angivet Id hittades inte.");
+                }
             }
         }
     }

@@ -14,11 +14,7 @@ namespace WebbShop2
 {
     internal class Show
     {
-        public static void Display()
-        {
-           
-        }
-
+      
         public static void Tröjor()
         {
             using (var db = new MyDbContext())
@@ -28,7 +24,7 @@ namespace WebbShop2
                 var tröjor = db.Produkter
                     .Where(p => p.KategoriId == 1)
                     .Include(p => p.ProduktStorlekar)
-                         .ThenInclude(ps => ps.Storlek)
+                    .ThenInclude(ps => ps.Storlek)
                     .ToList()
                     .Where(p =>p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0)) 
                     .ToList();
@@ -91,10 +87,18 @@ namespace WebbShop2
                     case '0':
                         Console.SetCursorPosition(50, 10);
                         Console.WriteLine("Välj storlek: ");
-                        Console.SetCursorPosition(50, 11);
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("S  M  L  XL");
-                        Console.ResetColor();
+
+                        int rad = 11;
+                        var valdProdukt = tröjor[choice - 1];
+                        foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                        {
+                            Console.SetCursorPosition(51, rad);
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine($"{ps.Storlek.Namn}");
+                            Console.ResetColor();
+                            rad++;
+                        }
+                        
                         string storlek = Console.ReadLine().ToUpper();
 
                         var produkt = tröjor[choice - 1];
@@ -198,13 +202,19 @@ namespace WebbShop2
                 switch (char.ToLower(key.KeyChar))
                 {
                     case '0':
-                        Console.SetCursorPosition(50, 11);
+                        Console.SetCursorPosition(50, 10);
                         Console.WriteLine("Välj storlekId: ");
-                        Console.SetCursorPosition(50, 12);
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("S  M  L  XL");
-                        Console.ResetColor();
 
+                        int rad = 11;
+                        var valdProdukt = byxor[choice - 1];
+                        foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                        {
+                            Console.SetCursorPosition(51, rad);
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine($"{ps.Storlek.Namn}");
+                            Console.ResetColor();
+                            rad++;
+                        }
                         string storlek = Console.ReadLine().ToUpper();
 
                         var produkt = byxor[choice - 1];
@@ -300,12 +310,20 @@ namespace WebbShop2
                 switch (char.ToLower(Key.KeyChar))
                 {
                     case '0':
-                        Console.SetCursorPosition(50, 11);
+                        Console.SetCursorPosition(50, 10);
                         Console.WriteLine("Välj storlekId: ");
-                        Console.SetCursorPosition(50, 12);
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("S  M  L  XL");
-                        Console.ResetColor();
+
+
+                        int rad = 11;
+                        var valdProdukt = jackor [choice - 1];
+                        foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                        {
+                            Console.SetCursorPosition(51, rad);
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine($"{ps.Storlek.Namn}");
+                            Console.ResetColor();
+                            rad++;
+                        }
 
                         string storlek = Console.ReadLine().ToUpper();
 
