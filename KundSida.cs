@@ -119,7 +119,7 @@ namespace WebbShop2
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Registreringen lyckades!"); 
                     Console.ResetColor();
-                    Console.WriteLine("Ditt användarnamn är: " + nyKund.Anvandarnamn);
+                    Console.WriteLine("Ditt användarnamn är: " + nyKund.Id);
                     Console.WriteLine("Ditt lösenord är: " + nyKund.Losenord);
                     Thread.Sleep(3000);
                     Console.WriteLine("\nTryck på valfri knapp för att fortsätta...");

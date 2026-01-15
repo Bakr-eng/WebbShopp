@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebbShop2.Models;
 using WindowDemo;
 
 namespace WebbShop2
@@ -17,9 +18,15 @@ namespace WebbShop2
             var windowSearch = new Window("Sökning", 40, 0, sökning);
             windowSearch.Draw();
 
-            List<string> Kategorier = new List<string> { "T. Tröjor", "B. Byxor", "J. Jackor" };
-            var windowCategories = new Window("Kategorier", 40, 5, Kategorier);
-            windowCategories.Draw();
+
+            using (var db = new MyDbContext())
+            {
+                var kategorier = db.Kategorier
+                    .Select(k => k.Id.ToString() + " " + k.KategoriNamn).ToList();
+                //List<string> Kategorier = new List<string> { "T. Tröjor", "B. Byxor", "J. Jackor" };
+                var windowCategories = new Window("Kategorier", 40, 5, kategorier);
+                windowCategories.Draw();
+            }
         }
         public static void LogInLayout()
         {

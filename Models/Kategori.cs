@@ -9,7 +9,6 @@ namespace WebbShop2.Models
     internal class Kategori
     {
         public int Id { get; set; }
-
         public string KategoriNamn { get; set; }
 
         // Navigationsproperty
