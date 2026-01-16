@@ -40,7 +40,7 @@ namespace WebbShop2
             using (var db = new MyDbContext())
             {
                 Console.Clear();
-                Console.WriteLine("\x1b[3J");
+                Console.WriteLine("\x1b[3J"); //Rensa hela konsolens buffer
                 var tröjor = db.Produkter
                     .Where(p => p.KategoriId == kategoriId)
                     .Include(p => p.ProduktStorlekar)
@@ -52,13 +52,16 @@ namespace WebbShop2
                 int index = 1;
                 foreach (var tröja in tröjor)
                 {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+
                     Console.WriteLine($"[{index}]--------------------------");
                     Console.ForegroundColor = ConsoleColor.Yellow;
-
                     Console.ResetColor();
+
                     Console.WriteLine($"{tröja.Namn}");
                     Console.WriteLine($"{tröja.Pris}kr");
-                    Console.WriteLine();
+                    Console.WriteLine("\n");
+
                     index++;
                 }
                 Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
@@ -90,20 +93,30 @@ namespace WebbShop2
                     Console.WriteLine("Ogiltigt val.");
                 }
 
+                LäggTillVarukorgen(tröjor, choice);
+            }
+
+        }
+
+        public static void LäggTillVarukorgen(List<Produkt> tröjor, int choice)
+        {
+            using (var db = new MyDbContext())
+            {
+
                 ShopLayout.BuyLayout();
 
                 var key = Console.ReadKey(true);
                 switch (char.ToLower(key.KeyChar))
                 {
                     case '0':
-                        Console.SetCursorPosition(50, 10);
+                        // Console.SetCursorPosition(50, 21);
                         Console.WriteLine("Välj storlek: ");
 
-                        int rad = 11;
+                        int rad = 22;
                         var valdProdukt = tröjor[choice - 1];
                         foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
                         {
-                            Console.SetCursorPosition(51, rad);
+                            // Console.SetCursorPosition(51, rad);
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             Console.WriteLine($"{ps.Storlek.Namn}");
                             Console.ResetColor();
@@ -136,19 +149,15 @@ namespace WebbShop2
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Produkten har lagts till i varukorgen!");
                         Console.ResetColor();
-                        Thread.Sleep(1000);
                         break;
-
                 }
-
-                Console.WriteLine("\nTryck Enter för att återgå...");
-                Console.ReadLine();
             }
-
+            Console.WriteLine("\nTryck Enter för att återgå...");
+            Console.ReadLine();
         }
+        
 
-
-
+        
         private static List<string> HämtaBildFörKategorin(int id)
         {
             List<string> tröja = new List<string>
@@ -201,19 +210,19 @@ namespace WebbShop2
             switch (id)
             {
                 case 1:
-                    Window windowTröja = new Window("", 0, 15, tröja);
+                    Window windowTröja = new Window("", 0, 10, tröja);
                     windowTröja.Draw();
                     Console.SetCursorPosition(0, 0);
                     return tröja;
 
                 case 2:
-                    Window windowByxor = new Window("", 0, 15, byxor);
+                    Window windowByxor = new Window("", 0, 10, byxor);
                     windowByxor.Draw();
                     Console.SetCursorPosition(0, 0);
                     return byxor;
 
                 case 3:
-                    Window windowJacka = new Window("", 0, 15, jacka);
+                    Window windowJacka = new Window("", 0, 10, jacka);
                     windowJacka.Draw();
                     Console.SetCursorPosition(0, 0);
                     return jacka;

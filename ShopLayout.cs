@@ -14,6 +14,14 @@ namespace WebbShop2
     {
         public static void DrawLayout()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;  // för att kunna använda emojis
+
+            List<string> varugorg = new List<string> { "V. 🛒" };
+            var windowShoppingCart = new Window("Varukorg", 93, 6, varugorg);
+            windowShoppingCart.Draw();
+
+
+
             List<string> sökning = new List<string> {"0 söka", "_____________________________" };
             var windowSearch = new Window("Sökning", 40, 0, sökning);
             windowSearch.Draw();
