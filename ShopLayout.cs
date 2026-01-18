@@ -17,7 +17,7 @@ namespace WebbShop2
             Console.OutputEncoding = System.Text.Encoding.UTF8;  // för att kunna använda emojis
 
             List<string> varugorg = new List<string> { "V. 🛒" };
-            var windowShoppingCart = new Window("Varukorg", 93, 6, varugorg);
+            var windowShoppingCart = new Window("Varukorg", 93, 1, varugorg);
             windowShoppingCart.Draw();
 
 

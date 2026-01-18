@@ -9,6 +9,7 @@ using WindowDemo;
 
 namespace WebbShop2
 {
+    
     internal class ProduktVisning
     {
         public static void Sökning()
@@ -34,7 +35,6 @@ namespace WebbShop2
                 Console.WriteLine("Inga träffar hittades.");
             }
         }
-
         public static void VisaKategoriProdukter(int kategoriId)
         {
             using (var db = new MyDbContext())
@@ -48,6 +48,8 @@ namespace WebbShop2
                     .ToList()
                     .Where(p => p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0))
                     .ToList();
+
+                
 
                 int index = 1;
                 foreach (var tröja in tröjor)
@@ -72,7 +74,7 @@ namespace WebbShop2
                     var valdProdukt = tröjor[choice - 1];
                     Console.Clear();
 
-                    Console.WriteLine(HämtaBildFörKategorin(kategoriId));
+                    Console.WriteLine(HämtaBild(kategoriId));
 
 
                     Console.WriteLine("=== Produktinformation ===");
@@ -97,7 +99,6 @@ namespace WebbShop2
             }
 
         }
-
         public static void LäggTillVarukorgen(List<Produkt> tröjor, int choice)
         {
             using (var db = new MyDbContext())
@@ -140,11 +141,15 @@ namespace WebbShop2
 
                         var varukorgItem = new Varukorg
                         {
+                            KundId = KundSida.InloggadKundId,
                             ProduktId = produkt.Id,
                             StorlekId = valdStorlek.StorlekId,
                             Antal = 1
                         };
                         db.Varukorgar.Add(varukorgItem);
+                        db.SaveChanges();
+                       
+                        
 
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Produkten har lagts till i varukorgen!");
@@ -155,10 +160,7 @@ namespace WebbShop2
             Console.WriteLine("\nTryck Enter för att återgå...");
             Console.ReadLine();
         }
-        
-
-        
-        private static List<string> HämtaBildFörKategorin(int id)
+        private static List<string> HämtaBild(int id)
         {
             List<string> tröja = new List<string>
                 {
@@ -210,19 +212,19 @@ namespace WebbShop2
             switch (id)
             {
                 case 1:
-                    Window windowTröja = new Window("", 0, 10, tröja);
+                    Window windowTröja = new Window("", 0, 12, tröja);
                     windowTröja.Draw();
                     Console.SetCursorPosition(0, 0);
                     return tröja;
 
                 case 2:
-                    Window windowByxor = new Window("", 0, 10, byxor);
+                    Window windowByxor = new Window("", 0, 12, byxor);
                     windowByxor.Draw();
                     Console.SetCursorPosition(0, 0);
                     return byxor;
 
                 case 3:
-                    Window windowJacka = new Window("", 0, 10, jacka);
+                    Window windowJacka = new Window("", 0, 12, jacka);
                     windowJacka.Draw();
                     Console.SetCursorPosition(0, 0);
                     return jacka;

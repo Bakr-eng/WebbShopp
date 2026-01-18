@@ -15,6 +15,7 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
+                
                 var produkter = db.Produkter
                     .Where(p => p.Erbjudande == true)
                     .Include(ps => ps.ProduktStorlekar)
@@ -106,10 +107,11 @@ namespace WebbShop2
                        .ToList();
 
 
-                if (string.IsNullOrEmpty(input)) 
+                if (string.IsNullOrEmpty(input))
                 {
-                    Console.WriteLine("Ogiltigt val.");
+                    Console.WriteLine("fortsätt!");
                     return;
+
                 }
 
                 char choice = input[0];
@@ -120,6 +122,7 @@ namespace WebbShop2
                     {
                         var valdProdukt = produkter[produktIndex];
                         Console.Clear();
+                        Console.WriteLine("\x1b[3J");
                         Console.WriteLine("=== Produktinformation ===");
                         Console.WriteLine($"Namn: {valdProdukt.Namn}");
                         Console.WriteLine($"Pris: {valdProdukt.Pris}kr");
@@ -171,11 +174,14 @@ namespace WebbShop2
                            
                             var varukorgItem = new Varukorg
                             {
+                                KundId = KundSida.InloggadKundId,
                                 ProduktId = produkt.Id,
                                 StorlekId = valdStorlek.StorlekId,
                                 Antal = 1
                             };
                             db.Varukorgar.Add(varukorgItem);
+                            db.SaveChanges();
+
 
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Produkten har lagts till i varukorgen!");
@@ -188,6 +194,7 @@ namespace WebbShop2
                 else
                 {
                     Console.WriteLine("Ogiltigt val! ");
+                    
                 }
 
 

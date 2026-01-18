@@ -11,6 +11,8 @@ namespace WebbShop2
 {
     internal class KundSida
     {
+        public static int InloggadKundId { get; private set; } // Sparar kunden Id 
+
         public static void Start()
         {
             while (true)
@@ -139,37 +141,79 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
+         
                 while (true)
                 {
                     Console.Clear();
-                    Console.Write("ange ditt användarnamn; ");
+                    Console.Write("ange ditt användarnamn: ");
                     string namn = Console.ReadLine();
 
-                    Console.WriteLine("Ange ditt lösenord:");
+                    if ( namn == "q")
+                    {
+                        break;
+                    }
+
+                    Console.Write("Ange ditt lösenord: ");
                     string losenord = Console.ReadLine();
 
-                    var logIn = db.Kunder.FirstOrDefault();
-
-                    if (logIn.Anvandarnamn == namn && logIn.Losenord == losenord)
+                    if (losenord == "q")
                     {
-                        Console.WriteLine("välkomen");
-                        Console.ReadLine();
+                        break;
+                    }
+
+                    var logIn = db.Kunder
+                        .FirstOrDefault(k => k.Anvandarnamn == namn && k.Losenord == losenord );
+                    
+                   
+                    if (logIn != null)
+                    {
+                        InloggadKundId = logIn.Id; // sparar kunden Id
+                        LoggInSomKund();
+
                         return;
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Fel namn eller lösenord! ");
+                        Console.WriteLine("\nFel namn eller lösenord! ");
                         Console.ResetColor();
                         Console.WriteLine("Tryck på valfri knappt för att försöka igen: ");
                         Console.ReadKey();
                     }
                 }
-           
-
-
-
             }
+        }
+        
+        private static void LoggInSomKund()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine();
+                ShopLayout.DrawLayout();
+                ErbjudandeProdukter.VisaErbjudandeProdukter();
+                string input = Console.ReadLine().ToLower();
+                ErbjudandeProdukter.SeErbjudandeinfo(input);
+
+              
+
+                var key = Console.ReadKey();
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '0': ProduktVisning.Sökning(); break;
+                    case '1': ProduktVisning.VisaKategoriProdukter(1); break;
+                    case '2': ProduktVisning.VisaKategoriProdukter(2); break;
+                    case '3': ProduktVisning.VisaKategoriProdukter(3); break;
+
+                    case 'v': VarukorgSidan.Show(); break;
+                    case 'q': return;
+                }
+            }
+
+
+
+            
+
         }
 
         
