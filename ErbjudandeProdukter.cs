@@ -190,7 +190,7 @@ namespace WebbShop2
                             Console.WriteLine("\nTryck Enter för att återgå...");
                             break;
                     }
-                }
+                } 
                 else
                 {
                     Console.WriteLine("Ogiltigt val! ");
