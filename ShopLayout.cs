@@ -80,6 +80,8 @@ namespace WebbShop2
             var windowQOption = new Window("", 100, 0, QOption);
             windowQOption.Draw();
         }
+
+
         
     }
 }
