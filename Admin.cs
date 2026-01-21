@@ -14,7 +14,7 @@ namespace WebbShop2
         public static void Start()
         {
             string AdminNamn = "Bakr";
-            var password = "0000";
+            var password = "Bakr";
             while (true)
             {
                 Console.Clear();

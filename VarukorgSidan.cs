@@ -79,8 +79,8 @@ namespace WebbShop2
                             if (int.TryParse(input, out int result) && result > 0 && result <= varukorgen.Count)
                             {
                                 var valdProdukt = varukorgen[result - 1];
-                                Console.WriteLine("välj antal: ");
                                 Console.WriteLine(valdProdukt.EnheterIlager + " som finns i lager.");
+                                Console.Write("välj antal: ");
                                 int antalProdukt = int.Parse(Console.ReadLine());
 
                                 if (antalProdukt < 1 || antalProdukt > valdProdukt.EnheterIlager)
@@ -90,22 +90,23 @@ namespace WebbShop2
                                     break;
 
                                 }
-                                else
+
+
+                                var varukorgAntal = db.Varukorgar
+                                                    .FirstOrDefault(
+                                                    v => v.KundId == valdProdukt.KundId &&
+                                                    v.ProduktId == valdProdukt.ProduktId &&
+                                                    v.StorlekId == valdProdukt.StorlekId);
+                                if (varukorgAntal != null)
                                 {
-                                    var varukorgAntal = db.Varukorgar
-                                                        .FirstOrDefault(
-                                                        v => v.KundId == valdProdukt.KundId &&
-                                                        v.ProduktId == valdProdukt.ProduktId &&
-                                                        v.StorlekId == valdProdukt.StorlekId);
-                                    if (varukorgAntal != null)
-                                    {
-                                        varukorgAntal.Antal = antalProdukt;
-                                        db.SaveChanges();
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("Antalet har ändrat!");
-                                        Console.ResetColor();
-                                    }
+                                    varukorgAntal.Antal = antalProdukt;
+                                    db.SaveChanges();
+
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("Antalet har ändrat!");
+                                    Console.ResetColor();
                                 }
+
 
 
                             }
