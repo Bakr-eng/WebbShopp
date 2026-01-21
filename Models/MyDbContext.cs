@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,12 @@ namespace WebbShop2.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
+            var config = new ConfigurationBuilder()
+               .AddUserSecrets<Program>()
+               .Build();
+            //optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
+            var connStr = config["MySettings:connectionString"];
+            optionsBuilder.UseSqlServer(connStr);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
