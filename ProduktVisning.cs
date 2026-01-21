@@ -147,6 +147,8 @@ namespace WebbShop2
                         };
                         db.Varukorgar.Add(varukorgItem);
                         db.SaveChanges();
+
+
                         Lowest.LowestPosition = 0;
 
 

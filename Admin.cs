@@ -108,6 +108,7 @@ namespace WebbShop2
             using (var db = new MyDbContext())
             {
                 Console.Clear();
+                Console.WriteLine("\x1b[3J");
 
                 var produkter = db.Produkter
                     .Include(p => p.ProduktStorlekar)
