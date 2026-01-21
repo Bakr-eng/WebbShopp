@@ -66,7 +66,7 @@ namespace WebbShop2
             Console.InputEncoding = Encoding.UTF8;
             Console.ForegroundColor = ConsoleColor.Cyan;
             List<string> BuyOption = new List<string> { "0.🛒 Köp nu" };
-            var windowBuyOption = new Window("", 100, 0, BuyOption);
+            var windowBuyOption = new Window("", 99, 0, BuyOption);
             windowBuyOption.Draw();
             Console.ResetColor();
         }
@@ -76,9 +76,32 @@ namespace WebbShop2
             var windowCustomerOption = new Window("",0, 3, CustomerOption);
             windowCustomerOption.Draw();
 
-            List<string> QOption = new List<string> { "Q. Tillbaka" };
-            var windowQOption = new Window("", 100, 0, QOption);
+            List<string> Option = new List<string> { "Q. Tillbaka" };
+            var windowQOption = new Window("", 100, 0, Option);
             windowQOption.Draw();
+        }
+        public static void ShoppingCartLayout()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            List<string> UnitInStock = new List<string> { "1. Ändra Antal" };
+            var windowUnitInStock = new Window("", 99, 3, UnitInStock);
+            windowUnitInStock.Draw();
+
+
+            List<string> DeleteOption = new List<string> { "2. Ta bort" };
+            var windowDelete = new Window("", 99, 6, DeleteOption);
+            windowDelete.Draw();
+
+
+
+            List<string> ShowProducts = new List<string> { "3. mer Info" };
+            var windowShow = new Window("", 99, 9, ShowProducts);
+            windowShow.Draw();
+            Console.ResetColor();
+
+          
+
+
         }
 
 

@@ -29,29 +29,31 @@ namespace WebbShop2
                         where v.KundId == KundSida.InloggadKundId
                         select new
                         {
-                            totalPris = p.Pris * v.Antal,
+                            v.ProduktId,
+                            v.StorlekId,
+                            v.KundId,
+                            v.Antal,
+                            p.Beskrivning,
+                            p.Pris,
+                            ps.EnheterIlager,
                             produktNamn = p.Namn,
                             storlekNamn = s.Namn,
-                            v.KundId,
-                            p.Pris,
-                            v.Antal,
-                            ps.EnheterIlager,
+                            totalPris = p.Pris * v.Antal,
                         }).ToList();
-
-
+                    ShopLayout.BuyLayout();
+                    ShopLayout.ShoppingCartLayout();
+                    Console.SetCursorPosition(0, 0);
                     var totalVarukorgPris = varukorgen.Sum(s => s.totalPris);
                     int index = 1;
                     foreach (var v in varukorgen)
                     {
-                        Console.WriteLine($"{index}| produkten: {v.produktNamn}| Antal: {v.Antal} | storleken är:{v.storlekNamn}  |\t pris:  {v.Pris}\n");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("\ntotalt pris:  " + v.totalPris);
-                        Console.ResetColor();
-                        Console.WriteLine("-------------------------------------------------------------------------------------------------");
-                        index++;
+                        Console.WriteLine($"[{index}]--------------------------");
+                        Console.WriteLine(v.produktNamn);
+                        Console.WriteLine(v.Pris + "kr\n\n");
+                       index++;
                     }
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Totalt pris: " + totalVarukorgPris);
+                    Console.WriteLine("Totalt hela produkters pris: " + totalVarukorgPris);
                     Console.ResetColor();
 
                     if (!varukorgen.Any())
@@ -64,10 +66,10 @@ namespace WebbShop2
                         return;
                     }
 
+                    
 
 
-
-                    var key = Console.ReadKey();
+                    var key = Console.ReadKey(true);
                     switch (char.ToLower(key.KeyChar))
                     {
                         case '1':
@@ -80,9 +82,54 @@ namespace WebbShop2
                                 Console.WriteLine("välj antal: ");
                                 Console.WriteLine(valdProdukt.EnheterIlager + " som finns i lager.");
                                 int antalProdukt = int.Parse(Console.ReadLine());
-                                
+
+                                if (antalProdukt < 1 || antalProdukt > valdProdukt.EnheterIlager)
+                                {
+                                    Console.WriteLine("ogiltigt antal.");
+                                    Console.ReadKey();
+                                    break;
+
+                                }
+                                else
+                                {
+                                    var varukorgAntal = db.Varukorgar
+                                                        .FirstOrDefault(
+                                                        v => v.KundId == valdProdukt.KundId &&
+                                                        v.ProduktId == valdProdukt.ProduktId &&
+                                                        v.StorlekId == valdProdukt.StorlekId);
+                                    if (varukorgAntal != null)
+                                    {
+                                        varukorgAntal.Antal = antalProdukt;
+                                        db.SaveChanges();
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine("Antalet har ändrat!");
+                                        Console.ResetColor();
+                                    }
+                                }
+
+
                             }
                             break;
+                        case '3':
+                            Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
+                            string nummer = Console.ReadLine();
+                            if (int.TryParse(nummer, out int choice) && choice > 0 && choice <= varukorgen.Count)
+                            {
+                                var valdProdukt = varukorgen[choice -1];
+                                Console.Clear();
+                                Console.WriteLine("=== Produktinformation ===");
+                                Console.WriteLine($"Namn: {valdProdukt.produktNamn}");
+                                Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
+                                Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
+                                Console.WriteLine($"Antal: {valdProdukt.Antal}");
+                                Console.WriteLine($"Storleken: {valdProdukt.storlekNamn}");
+                            }
+                            break;
+
+
+
+
+                        case 'q': return;
                            
                     }
                     Console.ReadLine();

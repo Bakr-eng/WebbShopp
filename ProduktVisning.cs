@@ -61,8 +61,7 @@ namespace WebbShop2
                     Console.ResetColor();
 
                     Console.WriteLine($"{tröja.Namn}");
-                    Console.WriteLine($"{tröja.Pris}kr");
-                    Console.WriteLine("\n");
+                    Console.WriteLine($"{tröja.Pris}kr\n\n");
 
                     index++;
                 }
@@ -103,7 +102,7 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
-
+                
                 ShopLayout.BuyLayout();
 
                 var key = Console.ReadKey(true);
@@ -148,8 +147,9 @@ namespace WebbShop2
                         };
                         db.Varukorgar.Add(varukorgItem);
                         db.SaveChanges();
-                       
-                        
+                        Lowest.LowestPosition = 0;
+
+
 
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Produkten har lagts till i varukorgen!");
@@ -160,7 +160,7 @@ namespace WebbShop2
             Console.WriteLine("\nTryck Enter för att återgå...");
             Console.ReadLine();
         }
-        private static List<string> HämtaBild(int id)
+        public static List<string> HämtaBild(int id)
         {
             List<string> tröja = new List<string>
                 {

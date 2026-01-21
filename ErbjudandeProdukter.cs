@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebbShop2.Models;
+using WindowDemo;
 
 namespace WebbShop2
 {
@@ -15,7 +16,7 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
-                
+                Console.SetCursorPosition(0, 0);
                 var produkter = db.Produkter
                     .Where(p => p.Erbjudande == true)
                     .Include(ps => ps.ProduktStorlekar)
