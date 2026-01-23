@@ -25,6 +25,7 @@ namespace WebbShop2.Models
         public virtual ICollection<ProduktStorlek> ProduktStorlekar { get; set; } = new List<ProduktStorlek>();
 
         public virtual ICollection<Varukorg> Varukorgar  { get; set; } = new List<Varukorg>();
+        public virtual ICollection<OrderRad> OrderRader { get; set; } = new List<OrderRad>();
 
 
     }

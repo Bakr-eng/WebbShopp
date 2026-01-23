@@ -19,6 +19,8 @@ namespace WebbShop2.Models
 
         public DbSet<Kund> Kunder { get; set; }
         public DbSet<Adress> Adresser { get; set; }
+        public DbSet<Order> Ordrar { get; set; }
+        public DbSet<OrderRad> OrderRader { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
