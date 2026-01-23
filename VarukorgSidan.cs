@@ -41,14 +41,12 @@ namespace WebbShop2
                     {
                         Console.WriteLine($"[{index}]--------------------------");
                         Console.WriteLine(v.Produkt.Namn);
-                        Console.WriteLine(v.Produkt.Pris + "kr");
-
-
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"Totalt pris: {totalVarukorgPris:0.00} \t  antal:" + v.Antal + "\n\n");
-                        Console.ResetColor();
+                        Console.WriteLine(v.Produkt.Pris + "kr\t  antal: " + v.Antal + "\n\n");
                         index++;
                     }
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"\n\n\tTotalt pris: {totalVarukorgPris:0.00}");
+                    Console.ResetColor();
 
                     if (!varukorgen.Any())
                     {
