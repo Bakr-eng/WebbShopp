@@ -20,7 +20,6 @@ namespace WebbShop2
 
                 Console.Clear();
                 Console.WriteLine("Välj ett alternativ:");
-                Console.WriteLine("Tryck q för att gå till startsidan");
                 Console.WriteLine("--------------------");
                 ShopLayout.CustomersLayout();
 
