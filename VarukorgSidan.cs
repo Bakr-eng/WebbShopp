@@ -21,7 +21,7 @@ namespace WebbShop2
                 using (var db = new MyDbContext())
                 {
 
-                    var varukorgen = db.Varukorgar
+                    var kundVarukorgen = db.Varukorgar
                         .Include(p => p.Produkt)
                         .ThenInclude(ps => ps.ProduktStorlekar)
                         .ThenInclude(s => s.Storlek)
@@ -35,20 +35,20 @@ namespace WebbShop2
                     ShopLayout.BuyLayout();
                     ShopLayout.ShoppingCartLayout();
                     Console.SetCursorPosition(0, 0);
-                    var totalVarukorgPris = varukorgen.Sum(s => s.Produkt.Pris * s.Antal);
-                    int index = 1;
-                    foreach (var v in varukorgen)
+                    var totalPris = kundVarukorgen.Sum(s => s.Produkt.Pris * s.Antal);
+                    int radNummer = 1;
+                    foreach (var rad in kundVarukorgen)
                     {
-                        Console.WriteLine($"[{index}]--------------------------");
-                        Console.WriteLine(v.Produkt.Namn);
-                        Console.WriteLine(v.Produkt.Pris + "kr\t  antal: " + v.Antal + "\n\n");
-                        index++;
+                        Console.WriteLine($"[{radNummer}]--------------------------");
+                        Console.WriteLine(rad.Produkt.Namn);
+                        Console.WriteLine(rad.Produkt.Pris + "kr\t  antal: " + rad.Antal + "\n\n");
+                        radNummer++;
                     }
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"\n\n\tTotalt pris: {totalVarukorgPris:0.00}");
+                    Console.WriteLine($"\n\n\tTotalt pris: {totalPris:0.00}");
                     Console.ResetColor();
 
-                    if (!varukorgen.Any())
+                    if (!kundVarukorgen.Any())
                     {
                         Console.SetCursorPosition(40, 10);
                         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -58,29 +58,26 @@ namespace WebbShop2
                         return;
                     }
 
-
-
-
                     var key = Console.ReadKey(true);
                     switch (char.ToLower(key.KeyChar))
                     {
-                        case '1': ÄndraAntal(varukorgen, db); break;
-                        case '2': TaBortProdukter(varukorgen, db); break;
-                        case '3':  VisaProduktInfo(varukorgen); break;
+                        case '1': ÄndraProduktAntal(kundVarukorgen, db); break;
+                        case '2': TaBortProdukt(kundVarukorgen, db); break;
+                        case '3':  VisaProduktInformation(kundVarukorgen); break;
                         case 'q': return;
                     }
                     Console.ReadLine();
                 }
             }
         }
-        public static void ÄndraAntal(List<Varukorg> varukorgen, MyDbContext db)
+        public static void ÄndraProduktAntal(List<Varukorg> kundVarukorgen, MyDbContext db)
         {
             Console.Write("\nVilken produkt ska du ändra antalet? ");
             string input = Console.ReadLine();
 
-            if (int.TryParse(input, out int result) && result > 0 && result <= varukorgen.Count)
+            if (int.TryParse(input, out int valIndex) && valIndex > 0 && valIndex <= kundVarukorgen.Count)
             {
-                var valdProdukt = varukorgen[result - 1];
+                var valdProdukt = kundVarukorgen[valIndex - 1];
                 int produktId = valdProdukt.ProduktId;
                 int storlekId = valdProdukt.StorlekId;
 
@@ -91,9 +88,9 @@ namespace WebbShop2
 
                 Console.WriteLine(enheterILager + " som finns i lager.");
                 Console.Write("välj antal: ");
-                int antalProdukt = int.Parse(Console.ReadLine());
+                int nyttAntal = int.Parse(Console.ReadLine());
 
-                if (antalProdukt < 1 || antalProdukt > enheterILager)
+                if (nyttAntal < 1 || nyttAntal > enheterILager)
                 {
                     Console.WriteLine("ogiltigt antal.");
                     Console.ReadKey();
@@ -101,7 +98,7 @@ namespace WebbShop2
 
                 }
 
-                valdProdukt.Antal = antalProdukt;
+                valdProdukt.Antal = nyttAntal;
                 db.SaveChanges();
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -111,13 +108,13 @@ namespace WebbShop2
 
             }
         }
-        public static void TaBortProdukter(List<Varukorg> varukorgen, MyDbContext db)
+        public static void TaBortProdukt(List<Varukorg> kundVarukorgen, MyDbContext db)
         {
             Console.Write("Vilken produkt vill du ta borta? skriv Id: ");
             string tabortId = Console.ReadLine();
-            if (int.TryParse(tabortId, out int choiceTaBort) && choiceTaBort > 0 && choiceTaBort <= varukorgen.Count)
+            if (int.TryParse(tabortId, out int valIndex) && valIndex > 0 && valIndex <= kundVarukorgen.Count)
             {
-                var valdProdukt = varukorgen[choiceTaBort - 1];
+                var valdProdukt = kundVarukorgen[valIndex - 1];
 
 
                 if (valdProdukt != null)
@@ -131,13 +128,13 @@ namespace WebbShop2
                 }
             }
         }
-        public static void VisaProduktInfo(List<Varukorg> varukorgen)
+        public static void VisaProduktInformation(List<Varukorg> kundVarukorgen)
         {
             Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
             string infoId = Console.ReadLine();
-            if (int.TryParse(infoId, out int choice) && choice > 0 && choice <= varukorgen.Count)
+            if (int.TryParse(infoId, out int valIndex) && valIndex > 0 && valIndex <= kundVarukorgen.Count)
             {
-                var valdProdukt = varukorgen[choice - 1];
+                var valdProdukt = kundVarukorgen[valIndex - 1];
                 Console.Clear();
                 Console.WriteLine("=== Produktinformation ===");
                 Console.WriteLine($"Namn: {valdProdukt.Produkt.Namn}");
