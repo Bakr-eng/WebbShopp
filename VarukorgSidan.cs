@@ -61,6 +61,7 @@ namespace WebbShop2
                     var key = Console.ReadKey(true);
                     switch (char.ToLower(key.KeyChar))
                     {
+                        case '0': Kassa.Show(kundVarukorgen, db); break;
                         case '1': ÄndraProduktAntal(kundVarukorgen, db); break;
                         case '2': TaBortProdukt(kundVarukorgen, db); break;
                         case '3':  VisaProduktInformation(kundVarukorgen); break;
