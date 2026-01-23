@@ -23,5 +23,9 @@ namespace WebbShop2.Models
         public virtual Leverantor? Leverantor { get; set; }
 
         public virtual ICollection<ProduktStorlek> ProduktStorlekar { get; set; } = new List<ProduktStorlek>();
+
+        public virtual ICollection<Varukorg> Varukorgar  { get; set; } = new List<Varukorg>();
+
+
     }
 }

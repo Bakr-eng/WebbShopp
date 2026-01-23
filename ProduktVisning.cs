@@ -138,17 +138,31 @@ namespace WebbShop2
                             break;
                         }
 
-                        var varukorgItem = new Varukorg
+                        var befintlig = db.Varukorgar
+                            .FirstOrDefault(v =>
+                            v.KundId == KundSida.InloggadKundId &&
+                            v.ProduktId == produkt.Id &&
+                            v.StorlekId == valdStorlek.StorlekId
+                            );
+                        if (befintlig != null)
                         {
-                            KundId = KundSida.InloggadKundId,
-                            ProduktId = produkt.Id,
-                            StorlekId = valdStorlek.StorlekId,
-                            Antal = 1
-                        };
-                        db.Varukorgar.Add(varukorgItem);
+                            befintlig.Antal += 1;
+                        }
+                        else
+                        {
+
+
+                            var varukorgItem = new Varukorg
+                            {
+                                KundId = KundSida.InloggadKundId,
+                                ProduktId = produkt.Id,
+                                StorlekId = valdStorlek.StorlekId,
+                                Antal = 1
+                            };
+                            db.Varukorgar.Add(varukorgItem);
+                        }
+
                         db.SaveChanges();
-
-
                         Lowest.LowestPosition = 0;
 
 

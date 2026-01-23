@@ -17,6 +17,7 @@ namespace WebbShop2.Models
 
         // Navigationsproperty
         public virtual Adress? Adress { get; set; }
+        public virtual ICollection<Varukorg> Varukorgar { get; set; } = new List<Varukorg>();
 
     }
 }

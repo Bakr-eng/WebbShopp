@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebbShop2.Models;
 
@@ -10,9 +11,11 @@ using WebbShop2.Models;
 namespace WebbShop2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260122102348_neww")]
+    partial class neww
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,8 +215,6 @@ namespace WebbShop2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KundId");
-
                     b.HasIndex("ProduktId");
 
                     b.HasIndex("StorlekId");
@@ -266,10 +267,6 @@ namespace WebbShop2.Migrations
 
             modelBuilder.Entity("WebbShop2.Models.Varukorg", b =>
                 {
-                    b.HasOne("WebbShop2.Models.Kund", "Kund")
-                        .WithMany("Varukorgar")
-                        .HasForeignKey("KundId");
-
                     b.HasOne("WebbShop2.Models.Produkt", "Produkt")
                         .WithMany("Varukorgar")
                         .HasForeignKey("ProduktId")
@@ -281,8 +278,6 @@ namespace WebbShop2.Migrations
                         .HasForeignKey("StorlekId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Kund");
 
                     b.Navigation("Produkt");
 
@@ -297,11 +292,6 @@ namespace WebbShop2.Migrations
             modelBuilder.Entity("WebbShop2.Models.Kategori", b =>
                 {
                     b.Navigation("Produkter");
-                });
-
-            modelBuilder.Entity("WebbShop2.Models.Kund", b =>
-                {
-                    b.Navigation("Varukorgar");
                 });
 
             modelBuilder.Entity("WebbShop2.Models.Leverantor", b =>

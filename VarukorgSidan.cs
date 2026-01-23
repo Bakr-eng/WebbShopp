@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using WebbShop2.Models;
 
 namespace WebbShop2
@@ -19,42 +20,35 @@ namespace WebbShop2
 
                 using (var db = new MyDbContext())
                 {
-                    var varukorgen = (
-                        from v in db.Varukorgar
-                        join p in db.Produkter on v.ProduktId equals p.Id
-                        join s in db.Storlekar on v.StorlekId equals s.Id
-                        join ps in db.ProduktStorlekar 
-                        on new { v.ProduktId, v.StorlekId } 
-                        equals new { ps.ProduktId, ps.StorlekId }
-                        where v.KundId == KundSida.InloggadKundId
-                        select new
-                        {
-                            v.ProduktId,
-                            v.StorlekId,
-                            v.KundId,
-                            v.Antal,
-                            p.Beskrivning,
-                            p.Pris,
-                            ps.EnheterIlager,
-                            produktNamn = p.Namn,
-                            storlekNamn = s.Namn,
-                            totalPris = p.Pris * v.Antal,
-                        }).ToList();
+
+                    var varukorgen = db.Varukorgar
+                        .Include(p => p.Produkt)
+                        .ThenInclude(ps => ps.ProduktStorlekar)
+                        .ThenInclude(s => s.Storlek)
+                        .Include(k => k.Produkt.Kategori)
+                        .Include(k => k.Kund)
+                        .ToList();
+
+
+
+
                     ShopLayout.BuyLayout();
                     ShopLayout.ShoppingCartLayout();
                     Console.SetCursorPosition(0, 0);
-                    var totalVarukorgPris = varukorgen.Sum(s => s.totalPris);
+                    var totalVarukorgPris = varukorgen.Sum(s => s.Produkt.Pris * s.Antal);
                     int index = 1;
                     foreach (var v in varukorgen)
                     {
                         Console.WriteLine($"[{index}]--------------------------");
-                        Console.WriteLine(v.produktNamn);
-                        Console.WriteLine(v.Pris + "kr\n\n");
-                       index++;
+                        Console.WriteLine(v.Produkt.Namn);
+                        Console.WriteLine(v.Produkt.Pris + "kr");
+
+
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"Totalt pris: {totalVarukorgPris:0.00} \t  antal:" + v.Antal + "\n\n");
+                        Console.ResetColor();
+                        index++;
                     }
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Totalt hela produkters pris: " + totalVarukorgPris);
-                    Console.ResetColor();
 
                     if (!varukorgen.Any())
                     {
@@ -66,103 +60,101 @@ namespace WebbShop2
                         return;
                     }
 
-                    
+
 
 
                     var key = Console.ReadKey(true);
                     switch (char.ToLower(key.KeyChar))
                     {
-                        case '1':
-                            Console.Write("\nVilken produkt ska du ändra antalet? ");
-                            string input = Console.ReadLine();
-
-                            if (int.TryParse(input, out int result) && result > 0 && result <= varukorgen.Count)
-                            {
-                                var valdProdukt = varukorgen[result - 1];
-                                Console.WriteLine(valdProdukt.EnheterIlager + " som finns i lager.");
-                                Console.Write("välj antal: ");
-                                int antalProdukt = int.Parse(Console.ReadLine());
-
-                                if (antalProdukt < 1 || antalProdukt > valdProdukt.EnheterIlager)
-                                {
-                                    Console.WriteLine("ogiltigt antal.");
-                                    Console.ReadKey();
-                                    break;
-
-                                }
-
-
-                                var varukorgAntal = db.Varukorgar
-                                                    .FirstOrDefault(
-                                                    v => v.KundId == valdProdukt.KundId &&
-                                                    v.ProduktId == valdProdukt.ProduktId &&
-                                                    v.StorlekId == valdProdukt.StorlekId);
-                                if (varukorgAntal != null)
-                                {
-                                    varukorgAntal.Antal = antalProdukt;
-                                    db.SaveChanges();
-
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.WriteLine("Antalet har ändrat!");
-                                    Console.ResetColor();
-                                }
-
-
-
-                            }
-                            break;
-                        case '3':
-                            Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
-                            string nummer = Console.ReadLine();
-                            if (int.TryParse(nummer, out int choice) && choice > 0 && choice <= varukorgen.Count)
-                            {
-                                var valdProdukt = varukorgen[choice -1];
-                                Console.Clear();
-                                Console.WriteLine("=== Produktinformation ===");
-                                Console.WriteLine($"Namn: {valdProdukt.produktNamn}");
-                                Console.WriteLine($"Pris: {valdProdukt.Pris} kr");
-                                Console.WriteLine($"Beskrivning: {valdProdukt.Beskrivning}");
-                                Console.WriteLine($"Antal: {valdProdukt.Antal}");
-                                Console.WriteLine($"Storleken: {valdProdukt.storlekNamn}");
-                            }
-                            break;
-
-
-
-
+                        case '1': ÄndraAntal(varukorgen, db); break;
+                        case '2': TaBortProdukter(varukorgen, db); break;
+                        case '3':  VisaProduktInfo(varukorgen); break;
                         case 'q': return;
-                           
                     }
                     Console.ReadLine();
-
                 }
             }
         }
-        
-        public static void ÄndraAntal()
+        public static void ÄndraAntal(List<Varukorg> varukorgen, MyDbContext db)
         {
-            //using (var db = new MyDbContext())
-            //{
-            //    Console.Write("Vilken produkt ska du ändra antalet? ");
-            //    string input = Console.ReadLine();
+            Console.Write("\nVilken produkt ska du ändra antalet? ");
+            string input = Console.ReadLine();
 
-            //    if (int.TryParse(input, out int result) && result > 0 && result <= varukorges.Count)
-            //    {
-            //        var valdProdukt = varukorgen[result - 1];
+            if (int.TryParse(input, out int result) && result > 0 && result <= varukorgen.Count)
+            {
+                var valdProdukt = varukorgen[result - 1];
+                int produktId = valdProdukt.ProduktId;
+                int storlekId = valdProdukt.StorlekId;
+
+                int enheterILager = valdProdukt.Produkt.ProduktStorlekar
+                    .Where(p => p.ProduktId == produktId && p.StorlekId == storlekId)
+                    .Select(p => p.EnheterIlager)
+                    .SingleOrDefault();
+
+                Console.WriteLine(enheterILager + " som finns i lager.");
+                Console.Write("välj antal: ");
+                int antalProdukt = int.Parse(Console.ReadLine());
+
+                if (antalProdukt < 1 || antalProdukt > enheterILager)
+                {
+                    Console.WriteLine("ogiltigt antal.");
+                    Console.ReadKey();
 
 
-            //    }
-            //}
+                }
+
+                valdProdukt.Antal = antalProdukt;
+                db.SaveChanges();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Antalet har ändrat!");
+                Console.ResetColor();
+
+
+            }
+        }
+        public static void TaBortProdukter(List<Varukorg> varukorgen, MyDbContext db)
+        {
+            Console.Write("Vilken produkt vill du ta borta? skriv Id: ");
+            string tabortId = Console.ReadLine();
+            if (int.TryParse(tabortId, out int choiceTaBort) && choiceTaBort > 0 && choiceTaBort <= varukorgen.Count)
+            {
+                var valdProdukt = varukorgen[choiceTaBort - 1];
+
+
+                if (valdProdukt != null)
+                {
+                    db.Varukorgar.Remove(valdProdukt);
+                    db.SaveChanges();
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(" produkten: " + valdProdukt.Produkt.Namn + " har tagits bort!");
+                    Console.ResetColor();
+                }
+            }
+        }
+        public static void VisaProduktInfo(List<Varukorg> varukorgen)
+        {
+            Console.WriteLine("Välj en produkt för mer information (skriv numret): ");
+            string infoId = Console.ReadLine();
+            if (int.TryParse(infoId, out int choice) && choice > 0 && choice <= varukorgen.Count)
+            {
+                var valdProdukt = varukorgen[choice - 1];
+                Console.Clear();
+                Console.WriteLine("=== Produktinformation ===");
+                Console.WriteLine($"Namn: {valdProdukt.Produkt.Namn}");
+                Console.WriteLine($"Pris: {valdProdukt.Produkt.Pris} kr");
+                Console.WriteLine($"Beskrivning: {valdProdukt.Produkt.Beskrivning}");
+                Console.WriteLine($"Antal: {valdProdukt.Antal}");
+                Console.WriteLine($"Storleken: {valdProdukt.Storlek.Namn}");
+            }
         }
     }
-
-    //public class VarukorgItem
-    //{
-    //    public int ProduktId { get; set; }
-    //    public string ProduktNamn { get; set; }
-    //    public string StorlekNamn { get; set; }
-    //    public int Antal { get; set; }
-    //    public decimal Pris { get; set; }
-    //    public decimal TotalPris { get; set; }
-    //}
 }
+
+    
+
+
+
+   
+

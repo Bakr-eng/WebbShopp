@@ -13,5 +13,11 @@ namespace WebbShop2.Models
         public int ProduktId { get; set; }
         public int StorlekId { get; set; }
         public int Antal { get; set; }
+
+        // Navigationsproperty
+        public virtual Produkt Produkt { get; set; }
+        public virtual Storlek Storlek { get; set; }
+        public virtual Kund Kund { get; set; }
+
     }
 }

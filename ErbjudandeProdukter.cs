@@ -46,7 +46,6 @@ namespace WebbShop2
                         ); Console.ResetColor();
                         Console.WriteLine($"{p.Namn}");
                         Console.WriteLine($"{p.Pris}kr");
-                        Console.WriteLine();
                         index++;
                     }
                     else if (p.KategoriId == 2)
@@ -67,7 +66,6 @@ namespace WebbShop2
                         ); Console.ResetColor();
                         Console.WriteLine($"{p.Namn}");
                         Console.WriteLine($"{p.Pris}kr");
-                        Console.WriteLine();
                         index++;
                     }
                     else if (p.KategoriId == 3)
@@ -87,7 +85,6 @@ namespace WebbShop2
                         ); Console.ResetColor();
                         Console.WriteLine($"Namn: {p.Namn}");
                         Console.WriteLine($"Pris: {p.Pris}kr");
-                        Console.WriteLine();
                         index++;
                     }
                 }
@@ -134,7 +131,7 @@ namespace WebbShop2
                         {
                             Console.WriteLine($"Storlek: {ps.Storlek.Namn}");
                         }
-                        Console.WriteLine("\nTryck Enter för att återgå...");
+                        Console.WriteLine("Tryck Enter för att återgå...");
                     }
 
 
@@ -143,15 +140,15 @@ namespace WebbShop2
                     switch (char.ToLower(Key.KeyChar))
                     {
                         case '0':
-                            Console.SetCursorPosition(50, 10);
-                            Console.WriteLine("Välj storlekId: ");
+                           // Console.SetCursorPosition(50, 10);
+                            Console.WriteLine("\n\nVälj storlekId: ");
 
 
                             int rad = 11;
                             var valdProdukt = produkter[produktIndex];
                             foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
                             {
-                                Console.SetCursorPosition(51, rad);
+                               // Console.SetCursorPosition(51, rad);
                                 Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.WriteLine($"{ps.Storlek.Namn}");
                                 Console.ResetColor();

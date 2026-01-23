@@ -14,5 +14,7 @@ namespace WebbShop2.Models
 
         // Navigationsproperty
         public virtual ICollection<ProduktStorlek> ProduktStorlekar { get; set; } = new List<ProduktStorlek>();
+
+        public virtual ICollection<Varukorg> Varukorgar { get; set; } = new List<Varukorg>();
     }
 }
