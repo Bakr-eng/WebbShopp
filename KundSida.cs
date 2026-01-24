@@ -52,7 +52,7 @@ namespace WebbShop2
                 string email = Console.ReadLine();
 
                 Console.WriteLine("Ange ditt telefonnummer: ");
-                int phone = int.Parse(Console.ReadLine());
+                string phone = Console.ReadLine();
 
 
 
@@ -120,7 +120,7 @@ namespace WebbShop2
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Registreringen lyckades!"); 
                     Console.ResetColor();
-                    Console.WriteLine("Ditt användarnamn är: " + nyKund.Id);
+                    Console.WriteLine("Ditt användarnamn är: " + förnamn + efternamn + nyKund.Id);
                     Console.WriteLine("Ditt lösenord är: " + nyKund.Losenord);
                     Thread.Sleep(3000);
                     Console.WriteLine("\nTryck på valfri knapp för att fortsätta...");

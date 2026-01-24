@@ -12,7 +12,7 @@ namespace WebbShop2.Models
         public string? Anvandarnamn { get; set; }
         public string Losenord { get; set; }
         public string Email { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public int? AdressId { get; set; }
 
         // Navigationsproperty
