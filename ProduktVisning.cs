@@ -9,7 +9,7 @@ using WindowDemo;
 
 namespace WebbShop2
 {
-    
+
     internal class ProduktVisning
     {
         public static void Sökning()
@@ -49,7 +49,7 @@ namespace WebbShop2
                     .Where(p => p.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0))
                     .ToList();
 
-                
+
 
                 int index = 1;
                 foreach (var tröja in tröjor)
@@ -97,93 +97,6 @@ namespace WebbShop2
                 LäggTillVarukorgen(tröjor, choice);
             }
 
-        }
-        public static void LäggTillVarukorgen(List<Produkt> tröjor, int choice)
-        {
-            using (var db = new MyDbContext())
-            {
-                
-                ShopLayout.BuyLayout();
-
-                var key = Console.ReadKey(true);
-                switch (char.ToLower(key.KeyChar))
-                {
-                    case '0':
-                        // Console.SetCursorPosition(50, 21);
-                        Console.WriteLine("Välj storlek: ");
-
-                        int rad = 22;
-                        var valdProdukt = tröjor[choice - 1];
-                        foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
-                        {
-                            // Console.SetCursorPosition(51, rad);
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            Console.WriteLine($"{ps.Storlek.Namn}");
-                            Console.ResetColor();
-                            rad++;
-                        }
-
-                        string storlek = Console.ReadLine().ToUpper();
-
-                        var produkt = tröjor[choice - 1];
-
-                        var valdStorlek = produkt.ProduktStorlekar
-                            .FirstOrDefault(ps => ps.Storlek.Namn == storlek && ps.EnheterIlager > 0);
-
-                        if (valdStorlek == null)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Denna storlek finns inte längre i lager:");
-                            Console.ResetColor();
-                            break;
-                        }
-
-                        var befintlig = db.Varukorgar
-                            .FirstOrDefault(v =>
-                            v.KundId == KundSida.InloggadKundId &&
-                            v.ProduktId == produkt.Id &&
-                            v.StorlekId == valdStorlek.StorlekId
-                            );
-                        if (befintlig != null)
-                        {
-                            befintlig.Antal += 1;
-                        }
-                        else
-                        {
-
-
-                            var varukorgItem = new Varukorg
-                            {
-                                KundId = KundSida.InloggadKundId,
-                                ProduktId = produkt.Id,
-                                StorlekId = valdStorlek.StorlekId,
-                                Antal = 1
-                            };
-                            db.Varukorgar.Add(varukorgItem);
-                        }
-                        db.SaveChanges();
-
-                        var minskadLager = db.ProduktStorlekar
-                            .FirstOrDefault(ps =>
-                                ps.ProduktId == produkt.Id &&
-                                ps.StorlekId == valdStorlek.StorlekId);
-                        if (minskadLager != null)
-                        {
-                            minskadLager.EnheterIlager -= 1;
-                            db.SaveChanges();
-                        }
-
-
-
-                            Lowest.LowestPosition = 0;
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Produkten har lagts till i varukorgen!");
-                        Console.ResetColor();
-                        break;
-                }
-            }
-            Console.WriteLine("\nTryck Enter för att återgå...");
-            Console.ReadLine();
         }
         public static List<string> HämtaBild(int id)
         {
@@ -257,7 +170,93 @@ namespace WebbShop2
                 default: return new List<string>();
             }
         }
+        public static void LäggTillVarukorgen(List<Produkt> tröjor, int choice)
+        {
+            using (var db = new MyDbContext())
+            {
 
+                ShopLayout.BuyLayout();
+
+                var key = Console.ReadKey(true);
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '0':
+                        // Console.SetCursorPosition(50, 21);
+                        Console.WriteLine("Välj storlek: ");
+
+                        int rad = 22;
+                        var valdProdukt = tröjor[choice - 1];
+                        foreach (var ps in valdProdukt.ProduktStorlekar.Where(p => p.EnheterIlager > 0))
+                        {
+                            // Console.SetCursorPosition(51, rad);
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.WriteLine($"{ps.Storlek.Namn}");
+                            Console.ResetColor();
+                            rad++;
+                        }
+
+                        string storlek = Console.ReadLine().ToUpper();
+
+                        var produkt = tröjor[choice - 1];
+
+                        var valdStorlek = produkt.ProduktStorlekar
+                            .FirstOrDefault(ps => ps.Storlek.Namn == storlek && ps.EnheterIlager > 0);
+
+                        if (valdStorlek == null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Denna storlek finns inte längre i lager:");
+                            Console.ResetColor();
+                            break;
+                        }
+
+                        var befintlig = db.Varukorgar
+                            .FirstOrDefault(v =>
+                            v.KundId == KundSida.InloggadKundId &&
+                            v.ProduktId == produkt.Id &&
+                            v.StorlekId == valdStorlek.StorlekId
+                            );
+                        if (befintlig != null)
+                        {
+                            befintlig.Antal += 1;
+                        }
+                        else
+                        {
+
+
+                            var varukorgItem = new Varukorg
+                            {
+                                KundId = KundSida.InloggadKundId,
+                                ProduktId = produkt.Id,
+                                StorlekId = valdStorlek.StorlekId,
+                                Antal = 1
+                            };
+                            db.Varukorgar.Add(varukorgItem);
+                        }
+                        db.SaveChanges();
+
+                        var minskadLager = db.ProduktStorlekar
+                            .FirstOrDefault(ps =>
+                                ps.ProduktId == produkt.Id &&
+                                ps.StorlekId == valdStorlek.StorlekId);
+                        if (minskadLager != null)
+                        {
+                            minskadLager.EnheterIlager -= 1;
+                            db.SaveChanges();
+                        }
+
+
+
+                        Lowest.LowestPosition = 0;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Produkten har lagts till i varukorgen!");
+                        Console.ResetColor();
+                        break;
+                }
+            }
+            Console.WriteLine("\nTryck Enter för att återgå...");
+            Console.ReadLine();
+        }
 
     }
 }

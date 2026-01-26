@@ -169,7 +169,6 @@ namespace WebbShop2
 
 
         }
-
         private static void BetalningsSätt()
         {
             while (true)

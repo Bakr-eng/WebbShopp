@@ -7,7 +7,7 @@ using WebbShop2.Models;
 
 namespace WebbShop2
 {
-    internal class AdminUpdate
+    internal class ProductsUpdate
     {
         public static void Pris()
         {

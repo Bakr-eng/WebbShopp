@@ -84,7 +84,7 @@ namespace WebbShop2
                     case '1': VisaProdukter(); break;
                     case '2': LäggTillProdukt(); break;
                     case '3': TaBortProdukt(); break;
-                    case '4': Uppdatering(); break;
+                    case '4': UppdateraProdukter(); break;
                     case '5': UppdateraKundInfo(); break;
                     case 'q': return;
                 }
@@ -276,7 +276,7 @@ namespace WebbShop2
                 }
             }
         }
-        private static void Uppdatering()
+        private static void UppdateraProdukter()
         {
             
             Console.Clear();
@@ -287,11 +287,11 @@ namespace WebbShop2
             var key = Console.ReadKey();
             switch (char.ToLower(key.KeyChar))
             {
-                case '1': AdminUpdate.Namn(); break;
-                case '2': AdminUpdate.Pris(); break;
-                case '3': AdminUpdate.Infotext(); break;
-                case '4': AdminUpdate.Leverantör(); break;
-                case '5': AdminUpdate.HanteraErbjudande(); break;
+                case '1': ProductsUpdate.Namn(); break;
+                case '2': ProductsUpdate.Pris(); break;
+                case '3': ProductsUpdate.Infotext(); break;
+                case '4': ProductsUpdate.Leverantör(); break;
+                case '5': ProductsUpdate.HanteraErbjudande(); break;
 
             }
         }
@@ -310,11 +310,7 @@ namespace WebbShop2
                 {
                     case '1': CustomerUpdate.AnvändarenNamn(); break;
                     case '2': CustomerUpdate.Lösenord(); break;
-                   // case '3': CustomerUpdate.Epost(); break;
-                   // case '4': CustomerUpdate.Adress(); break;
                 }
-
-
             }
         }
 

@@ -60,9 +60,7 @@ namespace WebbShop2
                 }
 
                 db.SaveChanges();
-
             }
-
         }
         public static void Lösenord()
         {

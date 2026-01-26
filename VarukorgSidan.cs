@@ -36,12 +36,13 @@ namespace WebbShop2
                     ShopLayout.ShoppingCartLayout();
                     Console.SetCursorPosition(0, 0);
                     var totalPris = kundVarukorgen.Sum(s => s.Produkt.Pris * s.Antal);
-                    int radNummer = 1;
+                    int radNummer = 1; 
                     foreach (var rad in kundVarukorgen)
                     {
                         Console.WriteLine($"[{radNummer}]--------------------------");
                         Console.WriteLine(rad.Produkt.Namn);
-                        Console.WriteLine(rad.Produkt.Pris + "kr\t  antal: " + rad.Antal + "\n\n");
+                        Console.WriteLine(rad.Produkt.Pris + "kr\t  antal: " + rad.Antal + "");
+                        Console.WriteLine( " storlek: " + rad.Storlek.Namn);
                         radNummer++;
                     }
                     Console.ForegroundColor = ConsoleColor.DarkGray;
