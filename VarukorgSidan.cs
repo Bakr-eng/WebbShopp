@@ -88,7 +88,7 @@ namespace WebbShop2
                     .Select(p => p.EnheterIlager)
                     .SingleOrDefault();
 
-                Console.WriteLine(enheterILager + " som finns i lager.");
+                Console.WriteLine((enheterILager + 1) + " som finns i lager.");
                 Console.Write("välj antal: ");
                 int nyttAntal = int.Parse(Console.ReadLine());
 
@@ -99,15 +99,27 @@ namespace WebbShop2
 
 
                 }
+                else
+                {
 
-                valdProdukt.Antal = nyttAntal;
-                db.SaveChanges();
+                    valdProdukt.Antal = nyttAntal;
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Antalet har ändrat!");
-                Console.ResetColor();
+                    var minskadLager = db.ProduktStorlekar
+                        .Where(p => p.ProduktId == produktId && p.StorlekId == storlekId)
+                        .SingleOrDefault();
+
+                    minskadLager.EnheterIlager -= nyttAntal;
+
+                    db.SaveChanges();
 
 
+
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Antalet har ändrat!");
+                    Console.ResetColor();
+
+                }
             }
         }
         public static void TaBortProdukt(List<Varukorg> kundVarukorgen, MyDbContext db)

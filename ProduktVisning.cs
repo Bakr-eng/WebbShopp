@@ -161,12 +161,21 @@ namespace WebbShop2
                             };
                             db.Varukorgar.Add(varukorgItem);
                         }
-
                         db.SaveChanges();
-                        Lowest.LowestPosition = 0;
+
+                        var minskadLager = db.ProduktStorlekar
+                            .FirstOrDefault(ps =>
+                                ps.ProduktId == produkt.Id &&
+                                ps.StorlekId == valdStorlek.StorlekId);
+                        if (minskadLager != null)
+                        {
+                            minskadLager.EnheterIlager -= 1;
+                            db.SaveChanges();
+                        }
 
 
 
+                            Lowest.LowestPosition = 0;
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Produkten har lagts till i varukorgen!");
                         Console.ResetColor();
