@@ -40,7 +40,7 @@ namespace WebbShop2
                 }
             }
         }
-        private static string LäsDoltLösenord()
+        public static string LäsDoltLösenord()
         {
             string password = "";
             ConsoleKeyInfo key;

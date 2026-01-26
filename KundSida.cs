@@ -153,7 +153,7 @@ namespace WebbShop2
                     }
 
                     Console.Write("Ange ditt lösenord: ");
-                    string losenord = Console.ReadLine();
+                    string losenord = Admin.LäsDoltLösenord();
 
                     if (losenord == "q")
                     {

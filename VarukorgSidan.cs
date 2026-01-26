@@ -94,7 +94,9 @@ namespace WebbShop2
 
                 if (nyttAntal < 1 || nyttAntal > enheterILager)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("ogiltigt antal.");
+                    Console.ResetColor();
                     Console.ReadKey();
 
 
