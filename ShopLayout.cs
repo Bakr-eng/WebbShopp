@@ -49,16 +49,22 @@ namespace WebbShop2
         }
         public static void AdminLayout()
         {
-            List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter" };
+            List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter", "5. Uppdatera kundInfo" };
             var windowAdminOption = new Window("Admin Panel",0,8, AdminOption);
             windowAdminOption.Draw();
         }
         public static void AdminUpdateLayout()
         {
             List<string> AdminUpdateOption = new List<string> {"1. Namn", "2. Pris", "3. Infotext", "4. Leverantör", "5. Erbjudande produkter" };
-            var winedowAdminUpdateOption = new Window("Uppdatera Produkt", 0, 3, AdminUpdateOption);
-            winedowAdminUpdateOption.Draw();
+            var windowAdminUpdateOption = new Window("Uppdatera Produkt", 0, 3, AdminUpdateOption);
+            windowAdminUpdateOption.Draw();
 
+        }
+        public static void CustomerUpdateLayout()
+        {
+            List<string> CustomerUpdateOption = new List<string> { "1. Användaren namn", "2. lösenord" };
+            var windowCustomerOption = new Window("Uppdatera KundenInfo", 0 ,4, CustomerUpdateOption);
+            windowCustomerOption.Draw();
         }
         public static void BuyLayout()
         {

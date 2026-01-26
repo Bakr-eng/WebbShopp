@@ -36,7 +36,7 @@ namespace WebbShop2
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Fel namn eller lösenord, försök igen.");
                     Console.ResetColor();
-                    Thread.Sleep(2500);
+                    Console.ReadKey();
                 }
             }
         }
@@ -85,6 +85,7 @@ namespace WebbShop2
                     case '2': LäggTillProdukt(); break;
                     case '3': TaBortProdukt(); break;
                     case '4': Uppdatering(); break;
+                    case '5': UppdateraKundInfo(); break;
                     case 'q': return;
                 }
                 Console.WriteLine("Tryck på Enter");
@@ -294,7 +295,29 @@ namespace WebbShop2
 
             }
         }
+        private static void UppdateraKundInfo()
+        {
+            using (var db = new MyDbContext())
+            {
+                Console.Clear();
+                Console.WriteLine("\x1b[3J");
+                Console.WriteLine("Adminpanalen - Uppdatera kundInfo");
+                Console.WriteLine("-------------------------------");
+                ShopLayout.CustomerUpdateLayout();
 
-       
+                var key = Console.ReadKey();
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '1': CustomerUpdate.AnvändarenNamn(); break;
+                    case '2': CustomerUpdate.Lösenord(); break;
+                   // case '3': CustomerUpdate.Epost(); break;
+                   // case '4': CustomerUpdate.Adress(); break;
+                }
+
+
+            }
+        }
+
+
     }
 }
