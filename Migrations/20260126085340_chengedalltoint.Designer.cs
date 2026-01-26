@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebbShop2.Models;
 
@@ -11,9 +12,11 @@ using WebbShop2.Models;
 namespace WebbShop2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260126085340_chengedalltoint")]
+    partial class chengedalltoint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,6 +51,23 @@ namespace WebbShop2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Adresser");
+                });
+
+            modelBuilder.Entity("WebbShop2.Models.BetalningsSätt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Namn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BetalningsSätt");
                 });
 
             modelBuilder.Entity("WebbShop2.Models.Frakt", b =>
@@ -150,6 +170,9 @@ namespace WebbShop2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("BetalningsSättId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Datom")
                         .HasColumnType("datetime2");
 
@@ -159,10 +182,12 @@ namespace WebbShop2.Migrations
                     b.Property<int>("KundId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalPris")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TotalPris")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BetalningsSättId");
 
                     b.HasIndex("FraktId");
 
@@ -229,7 +254,7 @@ namespace WebbShop2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Pris")
+                    b.Property<decimal?>("Pris")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -317,6 +342,10 @@ namespace WebbShop2.Migrations
 
             modelBuilder.Entity("WebbShop2.Models.Order", b =>
                 {
+                    b.HasOne("WebbShop2.Models.BetalningsSätt", "BetalningsSätt")
+                        .WithMany("Ordrar")
+                        .HasForeignKey("BetalningsSättId");
+
                     b.HasOne("WebbShop2.Models.Frakt", "Frakt")
                         .WithMany("Ordrar")
                         .HasForeignKey("FraktId");
@@ -326,6 +355,8 @@ namespace WebbShop2.Migrations
                         .HasForeignKey("KundId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BetalningsSätt");
 
                     b.Navigation("Frakt");
 
@@ -421,6 +452,11 @@ namespace WebbShop2.Migrations
             modelBuilder.Entity("WebbShop2.Models.Adress", b =>
                 {
                     b.Navigation("Kunder");
+                });
+
+            modelBuilder.Entity("WebbShop2.Models.BetalningsSätt", b =>
+                {
+                    b.Navigation("Ordrar");
                 });
 
             modelBuilder.Entity("WebbShop2.Models.Frakt", b =>

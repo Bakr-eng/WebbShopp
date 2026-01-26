@@ -34,11 +34,8 @@ namespace WebbShop2
 
 
 
-            Console.Write("Tryck på ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("'Enter'");
-            Console.ResetColor();
-            Console.WriteLine(" för att fortsätta till betalnigen!");
+            Console.Write("Tryck på "); Console.ForegroundColor = ConsoleColor.Green; Console.Write("'Enter'"); Console.ResetColor(); Console.WriteLine(" för att fortsätta till betalnigen!");
+           
             Console.ReadKey();
 
             HämtaBetalningsInfo(kundVarukorgen, db);
@@ -68,8 +65,10 @@ namespace WebbShop2
             Console.Write("Postnummer: ");
             int postnummer = int.Parse(Console.ReadLine());
             Console.WriteLine("-----------------------------------");
-            int fraktPris = 0;
+            decimal frakt = 0m; // m är för decimal literal
             Console.Clear();
+
+
             while (true)
             {
                 Console.WriteLine("Välj fraktalternativ:");
@@ -78,15 +77,15 @@ namespace WebbShop2
                 Console.WriteLine("2. Expressfrakt (99 kr) – Leverans 1–2 dagar");
                 Console.WriteLine("-----------------------\n");
                 Console.Write("Välj (1 eller 2): ");
-                 fraktPris = int.Parse(Console.ReadLine());
-                if (fraktPris == 1 )
+                 frakt = int.Parse(Console.ReadLine());
+                if (frakt == 1 )
                 {
-                    fraktPris = 49;
+                    frakt = 49;
                     break;
                 }
-                else if (fraktPris == 2)
+                else if (frakt == 2)
                 {
-                    fraktPris = 99;
+                    frakt = 99;
                     break;
                 }
                 else
@@ -99,8 +98,8 @@ namespace WebbShop2
             Console.Clear();
 
             List<string> textRader = new List<string>();
-            int radNummer = 1;
-            var totalPris = kundVarukorgen.Sum(s => s.Produkt.Pris * s.Antal);
+            //int radNummer = 1;
+            decimal totalPris = kundVarukorgen.Sum(s => s.Produkt.Pris * s.Antal);
             foreach (var rad in kundVarukorgen)
             {
                 textRader.Add(rad.Produkt.Namn + "  " + rad.Produkt.Pris + "kr");
@@ -108,7 +107,6 @@ namespace WebbShop2
                 textRader.Add("");
                 textRader.Add("");
             }
-
             var windowShoppingCart = new Window("", 52, 0, textRader);
             windowShoppingCart.Draw();
             Console.SetCursorPosition(0, 0);
@@ -117,15 +115,58 @@ namespace WebbShop2
             Console.WriteLine($"gatuAdress: {gatuAdress}\npostnummer: { postnummer}\nstad: {stad}");
             Console.WriteLine();
             Console.WriteLine($"totalPris: {totalPris}");
-            Console.WriteLine($"fraktkostnad: {fraktPris}");
+            Console.WriteLine($"fraktkostnad: {frakt}");
             Console.WriteLine("---------------------");
             Console.Write($"summa att betala: ");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine( totalPris + fraktPris);
+            Console.WriteLine( totalPris + frakt);
             Console.ResetColor();
             Console.WriteLine("---------------------\n\n");
 
             BetalningsSätt();
+
+
+            decimal totalAttBetala = totalPris + frakt;
+
+            var nyOrder = new Order
+            {
+                KundId = KundSida.InloggadKundId,
+                Datom = DateTime.Now,
+                TotalPris = totalAttBetala,
+                FraktId = frakt == 49 ? 1 : 2
+            };
+
+            Db.Ordrar.Add(nyOrder);
+            Db.SaveChanges();
+
+
+            var orderRader = new List<OrderRad>();
+            foreach (var rad in kundVarukorgen)
+            {
+                var nyOrderRad = new OrderRad
+                {
+                    OrderId = nyOrder.Id,
+                    ProduktId = rad.ProduktId,
+                    StorlekId = rad.StorlekId,
+                    Antal = rad.Antal,
+                    PrisVidKop = rad.Produkt.Pris
+                };
+                orderRader.Add(nyOrderRad);
+                Db.OrderRader.Add(nyOrderRad);
+              
+            }
+            Db.SaveChanges();
+
+            var varukorgRemove = Db .Varukorgar.Where(v => v.KundId == KundSida.InloggadKundId);
+
+            Db.Varukorgar.RemoveRange(varukorgRemove);
+            Db.SaveChanges();
+
+            Console.Clear();
+            Console.WriteLine("Tack för din beställning!");
+            Console.ReadKey();
+
+
 
         }
 

@@ -12,10 +12,10 @@ namespace WebbShop2.Models
         public int KundId { get; set; }
         public DateTime Datom { get; set; }
         public decimal TotalPris { get; set; }
+        public int? FraktId { get; set; }
 
         // Navigationsproperty
         public virtual Kund Kund { get; set; }
-        public virtual BetalningsSätt? BetalningsSätt { get; set; }
         public virtual Frakt? Frakt { get; set; }
 
         public virtual ICollection<OrderRad> OrderRader { get; set; } = new List<OrderRad>();

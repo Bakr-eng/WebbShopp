@@ -11,7 +11,7 @@ namespace WebbShop2.Models
     {
         public int Id { get; set; }
         public string Namn { get; set; }
-        public decimal? Pris { get; set; }
+        public decimal Pris { get; set; }
         public int? KategoriId { get; set; }
         public string? Beskrivning { get; set; }
         public int? LeverantorId { get; set; }

@@ -167,7 +167,7 @@ namespace WebbShop2
                     if (logIn != null)
                     {
                         InloggadKundId = logIn.Id; // sparar kunden Id
-                        LoggInSomKund();
+                        Inloggad();
 
                         return;
                     }
@@ -183,7 +183,7 @@ namespace WebbShop2
             }
         }
         
-        private static void LoggInSomKund()
+        private static void Inloggad()
         {
             while (true)
             {

@@ -50,6 +50,7 @@ namespace WebbShop2
 
                     if (!kundVarukorgen.Any())
                     {
+                        Console.Clear();
                         Console.SetCursorPosition(40, 10);
                         Console.ForegroundColor = ConsoleColor.Magenta;
                         Console.WriteLine("Din varukorg är tom.");

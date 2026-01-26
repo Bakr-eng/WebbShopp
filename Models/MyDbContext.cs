@@ -21,7 +21,6 @@ namespace WebbShop2.Models
         public DbSet<Adress> Adresser { get; set; }
         public DbSet<Order> Ordrar { get; set; }
         public DbSet<OrderRad> OrderRader { get; set; }
-        public DbSet<BetalningsSätt> BetalningsSätt { get; set; }
         public DbSet<Frakt> Frakter { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
