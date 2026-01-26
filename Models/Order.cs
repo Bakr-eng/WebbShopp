@@ -15,6 +15,8 @@ namespace WebbShop2.Models
 
         // Navigationsproperty
         public virtual Kund Kund { get; set; }
+        public virtual BetalningsSätt? BetalningsSätt { get; set; }
+        public virtual Frakt? Frakt { get; set; }
 
         public virtual ICollection<OrderRad> OrderRader { get; set; } = new List<OrderRad>();
     }

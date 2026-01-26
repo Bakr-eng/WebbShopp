@@ -34,7 +34,11 @@ namespace WebbShop2
 
 
 
-            Console.WriteLine("Tryck på 'Enter' för att fortsätta till betalning!");
+            Console.Write("Tryck på ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("'Enter'");
+            Console.ResetColor();
+            Console.WriteLine(" för att fortsätta till betalnigen!");
             Console.ReadKey();
 
             HämtaBetalningsInfo(kundVarukorgen, db);
@@ -115,15 +119,61 @@ namespace WebbShop2
             Console.WriteLine($"totalPris: {totalPris}");
             Console.WriteLine($"fraktkostnad: {fraktPris}");
             Console.WriteLine("---------------------");
-            Console.WriteLine($"summa att betala: {totalPris + fraktPris}");
-            Console.WriteLine("---------------------");
-            Console.WriteLine("Till beetalning tryck på 'Enter'...");
-            Console.ReadKey();
+            Console.Write($"summa att betala: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine( totalPris + fraktPris);
+            Console.ResetColor();
+            Console.WriteLine("---------------------\n\n");
+
+            BetalningsSätt();
+
+        }
+
+        private static void BetalningsSätt()
+        {
+            while (true)
+            {
+
+
+                Console.WriteLine("\tBetalningssätt!");
+                Console.WriteLine("1. betala med kort");
+                Console.WriteLine("2. betala med swish");
+                Console.WriteLine("Välj (1 eller 2): ");
+
+                var key = Console.ReadKey(true);
+                switch (char.ToLower(key.KeyChar))
+                {
+                    case '1':
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("betala med kort");
+                        Console.ResetColor();
+                        Console.WriteLine("----------------------");
+                        Console.Write("kortNummer: ");
+                        string kortNummer = Console.ReadLine();
+                        Console.Write("sista giltighetsdag: ");
+                        string giltighetsdag = Console.ReadLine();
+                        Console.Write("CVC: ");
+                        string cvc = Console.ReadLine();
+                        return;
+
+                    case '2':
+                        Console.WriteLine("----------------------");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("betala med swish");
+                        Console.ResetColor();
+                        Console.Write("Swish Nummer: ");
+                        string swishNummer = Console.ReadLine();
+                        return;
+
+                    default:
+                     //  Console.Clear();
+                        Console.WriteLine("Ogiltigt val, försök igen.");
+                        break;
+                }
 
 
 
-
-
+            }
         }
     }
 }

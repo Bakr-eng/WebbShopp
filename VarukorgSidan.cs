@@ -111,7 +111,7 @@ namespace WebbShop2
         }
         public static void TaBortProdukt(List<Varukorg> kundVarukorgen, MyDbContext db)
         {
-            Console.Write("Vilken produkt vill du ta borta? skriv Id: ");
+            Console.Write("Vilken produkt vill du ta borta? ");
             string tabortId = Console.ReadLine();
             if (int.TryParse(tabortId, out int valIndex) && valIndex > 0 && valIndex <= kundVarukorgen.Count)
             {
