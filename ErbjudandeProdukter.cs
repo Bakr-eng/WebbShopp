@@ -33,8 +33,8 @@ namespace WebbShop2
                         Console.WriteLine($"[{index}]--------------------------");
                         Console.ForegroundColor = ConsoleColor.Yellow; Console.Write(
                          "          _________          \n" +
-                         "         /         \\         \n" +
-                         "    ____/   T‑SHIRT   \\____   \n" +
+                         "         /          \\         \n" +
+                         "    ____/   Tröja    \\____   \n" +
                          "   /    \\           /    \\   \n" +
                          "  /      \\         /      \\  \n" +
                          " |   __   \\_______/   __   | \n" +
@@ -71,7 +71,8 @@ namespace WebbShop2
                     else if (p.KategoriId == 3)
                     {
                         Console.WriteLine($"[{index}]--------------------------");
-                        Console.ForegroundColor = ConsoleColor.Cyan; Console.Write(
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write(
                         "        ________________        \n" +
                         "       /                \\       \n" +
                         "   ___/      JACKA       \\___   \n" +

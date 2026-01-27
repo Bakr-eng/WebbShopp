@@ -74,7 +74,9 @@ namespace WebbShop2
                     var valdProdukt = tröjor[choice - 1];
                     Console.Clear();
 
-                    Console.WriteLine(HämtaBild(kategoriId));
+                    
+                    
+
 
 
                     Console.WriteLine("=== Produktinformation ===");
@@ -88,6 +90,8 @@ namespace WebbShop2
                     {
                         Console.WriteLine($"Storlek: {ps.Storlek.Namn}");
                     }
+
+                    HämtaBild(kategoriId);
                 }
                 else
                 {
@@ -151,18 +155,24 @@ namespace WebbShop2
             switch (id)
             {
                 case 1:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Window windowTröja = new Window("", 0, 12, tröja);
+                    Console.ResetColor();
                     windowTröja.Draw();
                     Console.SetCursorPosition(0, 0);
+                    
                     return tröja;
 
                 case 2:
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Window windowByxor = new Window("", 0, 12, byxor);
                     windowByxor.Draw();
                     Console.SetCursorPosition(0, 0);
+                    Console.ResetColor();
                     return byxor;
 
                 case 3:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     Window windowJacka = new Window("", 0, 12, jacka);
                     windowJacka.Draw();
                     Console.SetCursorPosition(0, 0);
