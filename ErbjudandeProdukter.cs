@@ -51,7 +51,8 @@ namespace WebbShop2
                     else if (p.KategoriId == 2)
                     {
                         Console.WriteLine($"[{index}]--------------------------");
-                        Console.ForegroundColor = ConsoleColor.Blue; Console.Write(
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        Console.Write(
                         "        ||||||||||||        \n" +
                         "        ||        ||        \n" +
                         "        ||        ||        \n" +

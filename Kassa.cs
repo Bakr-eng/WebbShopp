@@ -174,9 +174,11 @@ namespace WebbShop2
         }
         private static void BetalningsSätt()
         {
+            int top = Console.CursorTop;
+
             while (true)
             {
-                
+                Console.SetCursorPosition(0, top);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Betalningssätt!");
                 Console.ResetColor();
@@ -184,6 +186,7 @@ namespace WebbShop2
                 Console.WriteLine("1. betala med kort");
                 Console.WriteLine("2. betala med swish");
                 Console.WriteLine("Välj (1 eller 2): ");
+                Console.WriteLine("Eller 'q' för avbryt");
 
                 var key = Console.ReadKey(true);
                 switch (char.ToLower(key.KeyChar))
@@ -224,6 +227,9 @@ namespace WebbShop2
                     default:
                      //  Console.Clear();
                         Console.WriteLine("Ogiltigt val, försök igen.");
+                        Console.ReadKey(true);
+                        Console.SetCursorPosition(0, Console.CursorTop -1);
+                        Console.WriteLine("                             ");
                         break;
                 }
 

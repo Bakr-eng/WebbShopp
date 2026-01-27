@@ -28,8 +28,10 @@ namespace WebbShop2.Models
             var config = new ConfigurationBuilder()
                .AddUserSecrets<Program>()
                .Build();
-           // optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
-            var connStr = config["MySettings:connectionString"];
+        // optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
+        // var connStr = config["MySettings:connectionString"];
+         var connStr = config["MySettings:azurestring"];
+        
             optionsBuilder.UseSqlServer(connStr);
         }
         public string GetConnectionString()  // för att hämta anslutningssträngen för Dapper

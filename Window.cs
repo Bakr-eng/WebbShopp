@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace WindowDemo
 {
@@ -33,30 +34,44 @@ namespace WindowDemo
             ;
 
             // Rita Header
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.SetCursorPosition(Left, Top);
             if (Header != "")
             {
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write('┌' + " ");
+
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(Header);
-                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write(" " + new String('─', width - Header.Length) + '┐');
             }
             else
             {
                 Console.Write('┌' + new String('─', width + 2) + '┐');
             }
+            Console.ResetColor();
 
             // Rita raderna i sträng-Listan
             for (int j = 0; j < TextRows.Count; j++)
             {
                 Console.SetCursorPosition(Left, Top + j + 1);
-                Console.WriteLine('│' + " " + TextRows[j] + new String(' ', width - TextRows[j].Length + 1) + '│');
-            }
+                //Console.WriteLine('│' + " " + TextRows[j] + new String(' ', width - TextRows[j].Length + 1) + '│');
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.Write('|');
+                Console.ResetColor();
+                Console.Write(" " + TextRows[j] + new String(' ', width - TextRows[j].Length + 1));
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine('│');
+                Console.ResetColor();
 
+            }
+            Console.ForegroundColor = ConsoleColor.Magenta;
             // Rita undre delen av fönstret
             Console.SetCursorPosition(Left, Top + TextRows.Count + 1);
             Console.Write('└' + new String('─', width + 2) + '┘');
+            Console.ResetColor();
 
 
             // Kolla vilket som är den nedersta posotion, i alla fönster, som ritats ut
@@ -66,6 +81,7 @@ namespace WindowDemo
             }
 
             Console.SetCursorPosition(0, Lowest.LowestPosition);
+
         }
     }
 

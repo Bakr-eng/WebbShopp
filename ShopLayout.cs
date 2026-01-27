@@ -12,6 +12,20 @@ namespace WebbShop2
 {
     internal class ShopLayout
     {
+        public static void WebbShopTitle()
+        {
+
+
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+            List<string> title = new List<string> { " ", " Välkommen till WebbShop   ", " " };
+            var windowTitle = new Window("", 35, 0, title);
+            windowTitle.Draw();
+
+
+
+
+        }
         public static void DrawLayout()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;  // för att kunna använda emojis

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,7 +14,7 @@ namespace WebbShop2
     {
         public static int InloggadKundId { get; private set; } // Sparar kunden Id 
 
-        public static void Start()
+        public static async Task Start()
         {
             while (true)
             {
@@ -26,7 +27,7 @@ namespace WebbShop2
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
-                    case '1': LoggaIn(); break;
+                    case '1': await LoggaIn(); break;
                     case '2': Registrera(); break;
                     case 'q': return;
                 }
@@ -136,7 +137,7 @@ namespace WebbShop2
                 }
             }
         }
-        private static void LoggaIn()
+        private static async Task LoggaIn()
         {
             using (var db = new MyDbContext())
             {
@@ -160,8 +161,8 @@ namespace WebbShop2
                         break;
                     }
 
-                    var logIn = db.Kunder
-                        .FirstOrDefault(k => k.Anvandarnamn == namn && k.Losenord == losenord );
+                    var logIn = await db.Kunder
+                        .FirstOrDefaultAsync(k => k.Anvandarnamn == namn && k.Losenord == losenord );
                     
                    
                     if (logIn != null)

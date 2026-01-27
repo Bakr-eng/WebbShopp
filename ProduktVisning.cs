@@ -157,14 +157,13 @@ namespace WebbShop2
                 case 1:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Window windowTröja = new Window("", 0, 12, tröja);
-                    Console.ResetColor();
                     windowTröja.Draw();
                     Console.SetCursorPosition(0, 0);
-                    
+                    Console.ResetColor();
                     return tröja;
 
                 case 2:
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Window windowByxor = new Window("", 0, 12, byxor);
                     windowByxor.Draw();
                     Console.SetCursorPosition(0, 0);
