@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebbShop2.Models;
+using Dapper;
+using Microsoft.Data.SqlClient;
+
 
 namespace WebbShop2
 {
@@ -86,6 +89,8 @@ namespace WebbShop2
                     case '3': TaBortProdukt(); break;
                     case '4': UppdateraProdukter(); break;
                     case '5': UppdateraKundInfo(); break;
+                    case '6': BästSäljandeProdukter(); break;
+
                     case 'q': return;
                 }
                 Console.WriteLine("Tryck på Enter");
@@ -312,6 +317,42 @@ namespace WebbShop2
                     case '2': CustomerUpdate.Lösenord(); break;
                 }
             }
+        }
+        private static void BästSäljandeProdukter()
+        {
+            Console.Clear();
+            using (var db = new MyDbContext())
+            using (var conn = new SqlConnection(db.GetConnectionString()))
+            {
+                string sql = @"
+        SELECT 
+            p.Id,
+            LEFT(p.Namn, 10) AS Namn,
+            p.Pris,
+            SUM(ord.Antal) AS TotaltSold
+        FROM 
+            OrderRader ord
+        JOIN 
+            Produkter p ON ord.ProduktId = p.Id
+        GROUP BY 
+            p.Id, p.Namn, p.Pris
+        ORDER BY 
+            TotaltSold DESC;
+    ";
+
+                var resultat = conn.Query(sql).ToList();
+
+                Console.WriteLine("----------------------------------------");
+                Console.WriteLine($"| {"id",-5} | {"Namn",-15} | {"Sålda",-10} | ");
+                Console.WriteLine("----------------------------------------");
+
+                foreach (var r in resultat)
+                {
+                    Console.WriteLine($"| {r.Id, -5} | {r.Namn,-15} | {r.TotaltSold, -10} |");
+                }
+                Console.WriteLine("----------------------------------------");
+            }
+
         }
 
 

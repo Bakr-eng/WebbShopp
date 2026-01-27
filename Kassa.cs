@@ -23,8 +23,8 @@ namespace WebbShop2
             {
                 textRad.Add(rad.Produkt.Namn + "  "+ rad.Produkt.Pris + "kr");
                 textRad.Add( "Antal: " + rad.Antal + "");
-                textRad.Add("" + rad.Storlek.Namn);
                 textRad.Add("");
+                textRad.Add("" + rad.Storlek.Namn);
             }
            textRad.Add("---------------------------------");
             textRad.Add($"Totalt pris: {totalPris:0.00}");
@@ -98,7 +98,6 @@ namespace WebbShop2
             Console.Clear();
 
             List<string> textRader = new List<string>();
-            //int radNummer = 1;
             decimal totalPris = kundVarukorgen.Sum(s => s.Produkt.Pris * s.Antal);
             foreach (var rad in kundVarukorgen)
             {
@@ -163,7 +162,10 @@ namespace WebbShop2
             Db.SaveChanges();
 
             Console.Clear();
+            Console.SetCursorPosition(30, 10);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Tack för din beställning!");
+            Console.ResetColor();
             Console.ReadKey();
 
 
@@ -174,8 +176,10 @@ namespace WebbShop2
             while (true)
             {
 
-
-                Console.WriteLine("\tBetalningssätt!");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Betalningssätt!");
+                Console.ResetColor();
+                Console.WriteLine("-------------------------");
                 Console.WriteLine("1. betala med kort");
                 Console.WriteLine("2. betala med swish");
                 Console.WriteLine("Välj (1 eller 2): ");

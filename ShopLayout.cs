@@ -49,7 +49,8 @@ namespace WebbShop2
         }
         public static void AdminLayout()
         {
-            List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter", "4. Uppdatera produkter", "5. Uppdatera kundInfo" };
+            List<string> AdminOption = new List<string> { "1. Visa produkter", "2. Lägga till produkter", "3. Ta bort produkter",
+                "4. Uppdatera produkter", "5. Uppdatera kundInfo", "6. Bäst söljande produkter" };
             var windowAdminOption = new Window("Admin Panel",0,8, AdminOption);
             windowAdminOption.Draw();
         }
