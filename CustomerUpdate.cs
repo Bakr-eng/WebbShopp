@@ -26,7 +26,7 @@ namespace WebbShop2
                 Console.WriteLine("-----------------------------------------------------------------");
             }
         }
-        public static void AnvändarenNamn()
+        public static void AnvändareNamn()
         {
 
             using (var db = new MyDbContext())

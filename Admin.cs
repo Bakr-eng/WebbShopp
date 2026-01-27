@@ -308,7 +308,7 @@ namespace WebbShop2
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))
                 {
-                    case '1': CustomerUpdate.AnvändarenNamn(); break;
+                    case '1': CustomerUpdate.AnvändareNamn(); break;
                     case '2': CustomerUpdate.Lösenord(); break;
                 }
             }
