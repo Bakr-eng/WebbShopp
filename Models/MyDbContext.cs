@@ -22,7 +22,7 @@ namespace WebbShop2.Models
         public DbSet<Order> Ordrar { get; set; }
         public DbSet<OrderRad> OrderRader { get; set; }
         public DbSet<Frakt> Frakter { get; set; }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder()
@@ -30,7 +30,7 @@ namespace WebbShop2.Models
                .Build();
         // optionsBuilder.UseSqlServer("Server=.\\SQLExpress02;Database=WebbShop2;Trusted_Connection=True; TrustServerCertificate=True;");
         // var connStr = config["MySettings:connectionString"];
-         var connStr = config["MySettings:azurestring"];
+         var connStr = config["MySettings:azureString"];
         
             optionsBuilder.UseSqlServer(connStr);
         }
