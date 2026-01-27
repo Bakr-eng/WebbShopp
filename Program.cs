@@ -15,8 +15,6 @@ namespace WebbShop2
             //}
             while (true)
             {
-
-
                 Console.Clear();
                 Console.WriteLine("\x1b[3J");
                ShopLayout.WebbShopTitle();

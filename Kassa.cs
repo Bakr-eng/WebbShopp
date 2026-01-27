@@ -168,9 +168,6 @@ namespace WebbShop2
             Console.WriteLine("Tack för din beställning!");
             Console.ResetColor();
             Console.ReadKey();
-
-
-
         }
         private static void BetalningsSätt()
         {
@@ -178,7 +175,7 @@ namespace WebbShop2
 
             while (true)
             {
-                Console.SetCursorPosition(0, top);
+                Console.SetCursorPosition(0, top); 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Betalningssätt!");
                 Console.ResetColor();
@@ -228,8 +225,8 @@ namespace WebbShop2
                      //  Console.Clear();
                         Console.WriteLine("Ogiltigt val, försök igen.");
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(0, Console.CursorTop -1);
-                        Console.WriteLine("                             ");
+                        Console.SetCursorPosition(0, Console.CursorTop -1); 
+                        Console.WriteLine("                             "); 
                         break;
                 }
 
