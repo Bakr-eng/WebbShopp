@@ -182,7 +182,7 @@ namespace WebbShop2
                 }
             }
         }
-        private static void Inloggad()
+        public static void Inloggad()
         {
             while (true)
             {

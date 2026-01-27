@@ -34,8 +34,8 @@ namespace WebbShop2
 
 
 
-            Console.Write("Tryck på "); Console.ForegroundColor = ConsoleColor.Green; Console.Write("'Enter'"); Console.ResetColor(); Console.WriteLine(" för att fortsätta till betalnigen!");
-           
+            Console.Write("Tryck på "); Console.ForegroundColor = ConsoleColor.Green; Console.Write("'Enter'"); Console.ResetColor();
+            Console.WriteLine(" för att fortsätta till betalnigen!");
             Console.ReadKey();
 
             HämtaBetalningsInfo(kundVarukorgen, db);
@@ -122,6 +122,7 @@ namespace WebbShop2
             Console.ResetColor();
             Console.WriteLine("---------------------\n\n");
 
+
             BetalningsSätt();
 
 
@@ -175,7 +176,7 @@ namespace WebbShop2
         {
             while (true)
             {
-
+                
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Betalningssätt!");
                 Console.ResetColor();
@@ -188,7 +189,7 @@ namespace WebbShop2
                 switch (char.ToLower(key.KeyChar))
                 {
                     case '1':
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("betala med kort");
                         Console.ResetColor();
                         Console.WriteLine("----------------------");
@@ -202,12 +203,23 @@ namespace WebbShop2
 
                     case '2':
                         Console.WriteLine("----------------------");
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("betala med swish");
                         Console.ResetColor();
                         Console.Write("Swish Nummer: ");
                         string swishNummer = Console.ReadLine();
                         return;
+
+                    case 'q':
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("------------------------------------\n");
+                        Console.WriteLine("Tryck på Enter för att återgå till start sida");
+                        Console.WriteLine("------------------------------------ ");
+                        Console.ResetColor();
+                        Console.ReadKey();
+
+                        KundSida.Inloggad();
+                        break;
 
                     default:
                      //  Console.Clear();

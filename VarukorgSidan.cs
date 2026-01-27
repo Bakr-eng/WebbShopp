@@ -43,6 +43,7 @@ namespace WebbShop2
                         Console.WriteLine(rad.Produkt.Namn);
                         Console.WriteLine(rad.Produkt.Pris + "kr\t  antal: " + rad.Antal + "");
                         Console.WriteLine( " storlek: " + rad.Storlek.Namn);
+                        Console.WriteLine("\n");
                         radNummer++;
                     }
                     Console.ForegroundColor = ConsoleColor.DarkGray;
