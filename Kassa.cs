@@ -167,7 +167,7 @@ namespace WebbShop2
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Tack för din beställning!");
             Console.ResetColor();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
         private static void BetalningsSätt()
         {
@@ -175,7 +175,7 @@ namespace WebbShop2
 
             while (true)
             {
-                Console.SetCursorPosition(0, top); 
+                Console.SetCursorPosition(0, top);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Betalningssätt!");
                 Console.ResetColor();

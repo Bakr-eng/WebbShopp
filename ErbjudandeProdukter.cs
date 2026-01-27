@@ -167,7 +167,7 @@ namespace WebbShop2
                             if (valdStorlek == null)
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Denna storlek finns inte längre i lager!");
+                                Console.WriteLine("Ogiltig storlek");
                                 Console.ResetColor();
                                 break;
                             }
