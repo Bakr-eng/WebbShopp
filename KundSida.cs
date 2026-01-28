@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebbShop2.Migrations;
 using WebbShop2.Models;
+using WindowDemo;
 
 namespace WebbShop2
 {
@@ -62,16 +63,16 @@ namespace WebbShop2
                 Console.WriteLine("-------");
 
                 Console.Write("Gatuadress: ");
-                string gatuAdress = Console.ReadLine();
+                string gatuAdress = Console.ReadLine().ToLower(); ;
 
                 Console.Write("Stad: ");
-                string stad = Console.ReadLine();
+                string stad = Console.ReadLine().ToLower();
 
                 Console.Write("Postnummer: ");
                 int postnummer = int.Parse(Console.ReadLine());
 
                 Console.Write("Land: ");
-                string land = Console.ReadLine();
+                string land = Console.ReadLine().ToUpper();
 
 
                 var befintligAdress = db.Adresser.FirstOrDefault(a =>
@@ -189,12 +190,15 @@ namespace WebbShop2
             {
                 Console.Clear();
                 Console.WriteLine();
+                ShopLayout.WelcomeLayout();
                 ShopLayout.DrawLayout();
                 ErbjudandeProdukter.VisaErbjudandeProdukter();
                 string input = Console.ReadLine().ToLower();
                 ErbjudandeProdukter.SeErbjudandeinfo(input);
+                
 
-              
+                
+
 
                 var key = Console.ReadKey();
                 switch (char.ToLower(key.KeyChar))

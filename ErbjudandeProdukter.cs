@@ -98,11 +98,10 @@ namespace WebbShop2
         {
             using (var db = new MyDbContext())
             {
-                var produkter = db.Produkter
+                var produkter =  db.Produkter
                        .Where(p => p.Erbjudande == true)
                        .Include(ps => ps.ProduktStorlekar)
                        .ThenInclude(s => s.Storlek)
-                       .ToList()
                        .Where(ps => ps.ProduktStorlekar.Any(ps => ps.EnheterIlager > 0))
                        .ToList();
 

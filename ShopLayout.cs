@@ -26,6 +26,13 @@ namespace WebbShop2
 
 
         }
+        public static void WelcomeLayout()
+        {
+            List<string> Welcome = new List<string> { "🌸 🌼 🌻 🌺 🌹 🌷 🌸 🌼 🌻 🌺 🌹 🌷 🌸","", "             Välkommen", ""
+                , "    Upptack stilen som passar dig    ","", "🌸 🌼 🌻 🌺 🌹 🌷 🌸 🌼 🌻 🌺 🌹 🌷 🌸" };
+            var windowWelcome = new Window("", 57, 18, Welcome);
+            windowWelcome.Draw();
+        }
         public static void DrawLayout()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;  // för att kunna använda emojis
@@ -103,7 +110,11 @@ namespace WebbShop2
         }
         public static void ShoppingCartLayout()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            List<string> Name = new List<string> {"     Varukorg       "};
+            var windowName = new Window("", 45, 0, Name);
+            windowName.Draw();
+
+
             List<string> UnitInStock = new List<string> { "1. Ändra Antal" };
             var windowUnitInStock = new Window("", 99, 3, UnitInStock);
             windowUnitInStock.Draw();
@@ -118,7 +129,6 @@ namespace WebbShop2
             List<string> ShowProducts = new List<string> { "3. mer Info" };
             var windowShow = new Window("", 99, 9, ShowProducts);
             windowShow.Draw();
-            Console.ResetColor();
 
           
 
