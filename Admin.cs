@@ -315,6 +315,7 @@ namespace WebbShop2
                 {
                     case '1': CustomerUpdate.AnvändareNamn(); break;
                     case '2': CustomerUpdate.Lösenord(); break;
+                    case '3': CustomerUpdate.VisaKundInfo(); break;
                 }
             }
         }

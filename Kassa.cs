@@ -23,8 +23,8 @@ namespace WebbShop2
             {
                 textRad.Add(rad.Produkt.Namn + "  "+ rad.Produkt.Pris + "kr");
                 textRad.Add( "Antal: " + rad.Antal + "");
-                textRad.Add("");
                 textRad.Add("" + rad.Storlek.Namn);
+                textRad.Add("");
             }
            textRad.Add("---------------------------------");
             textRad.Add($"Totalt pris: {totalPris:0.00}");
