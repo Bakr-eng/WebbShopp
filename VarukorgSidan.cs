@@ -27,7 +27,8 @@ namespace WebbShop2
                         .ThenInclude(s => s.Storlek)
                         .Include(k => k.Produkt.Kategori)
                         .Include(k => k.Kund)
-                        .ToList();
+                        .ToList()
+                        .Where(k => k.KundId == KundSida.InloggadKundId).ToList();
 
 
 
